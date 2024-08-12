@@ -1,0 +1,14 @@
+# 環境変数等を管理しているファイル
+.env
+
+# 変更頻度が多いため、ignore推奨のフォルダ
+docker/mysql/data/
+docker/nginx/logs/
+
+# MySQL設定ファイル
+docker/mysql/my.cnf
+
+# SSL証明書関連ファイル
+# docker/mysql/cacert.pem
+# docker/mysql/server-cert.pem
+# docker/mysql/server-key.pem
