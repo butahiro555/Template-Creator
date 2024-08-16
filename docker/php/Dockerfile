@@ -5,11 +5,15 @@ RUN apt-get update && \
     apt-get install -y \
     git \
     vim \
-    nano \
     zip \
     unzip \
+    curl \
     && docker-php-ext-install pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
+
+# Node.jsのインストール
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y nodejs
 
 # Composerのインストール
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
