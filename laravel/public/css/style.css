@@ -1,0 +1,82 @@
+@charset "UTF-8";
+
+/* スクロールバーの有無で画面のガタつきを防ぐためのCSS */
+body {
+    overflow-y: scroll;
+}
+
+.top {
+    margin-top: 76px;
+}
+
+.search {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.user {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5%;
+}
+
+.edit {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5%;
+}
+
+.sort {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.title {
+    width: 50%;
+    margin-left: 10%;
+    margin-bottom: 20px;
+}
+
+.textarea {
+    width: 80%;
+    margin: auto;
+}
+
+/* indexのボタンの整列 */
+.wrapper {
+    display: flex;
+    justify-content: flex-end; /* ボタンを右寄せにする */
+    width: 90%;
+}
+
+.wrapper-button {
+    margin: 10px; /* ボタン間のスペースを確保 */
+}
+
+/* flexboxを使用する */
+/* 親要素 */
+.flex_test-box {
+    display: flex;
+    justify-content: flex-end;
+    width: 90%;
+}
+
+/* 子要素 */
+.flex_test-item {
+    margin: 10px;
+}
+
+/* Updateが1,Deleteが2,Copyが3で、それを並び替える */
+.flex_test-item:nth-child(1) {
+    order: 2;
+}
+
+.flex_test-item:nth-child(2) {
+    order: 1;
+}
+
+.flex_test-item:nth-child(3) {
+    order: 3;
+}
+
