@@ -1,3 +1,32 @@
+/* app.css */
+
+/* Tailwind CSS 基本スタイル */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* カスタムスタイル */
+.login-container {
+    @apply flex items-center justify-center min-h-screen bg-gray-100;
+}
+
+.login-form {
+    @apply w-full max-w-md p-8 bg-white rounded shadow-md;
+}
+
+.login-header {
+    @apply text-2xl font-semibold mb-6;
+}
+
+.login-input {
+    @apply mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm;
+}
+
+.login-button {
+    @apply bg-blue-500 text-white px-4 py-2 rounded-md;
+}
+
+.forgot-password-link {
+    @apply text-sm text-blue-500 hover:text-blue-700;
+}
+
