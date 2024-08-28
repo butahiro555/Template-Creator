@@ -1,56 +1,64 @@
 services:
   web:
-    container_name: nginx  # Nginxコンテナの名前
+    container_name: nginx
     build:
-      context: .  # ビルドコンテキスト
-      dockerfile: ./docker/nginx/Dockerfile  # 使用するDockerfile
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
     ports:
-      - "80:80"  # ホストとコンテナのポートマッピング
+      - "80:80"
     volumes:
-      - ./docker/nginx/logs:/var/log/nginx  # logsフォルダに、コンテナ内のアクセスログと、エラーログをマウント
-      - ./laravel:/var/www/html # 作業ディレクトリ直下のボリュームをlaravelフォルダにマウント
+      - ./docker/nginx/logs:/var/log/nginx
+      - ./laravel:/var/www/html
     depends_on:
-      - app  # このサービスが依存するサービス
+      - app
 
   app:
-    container_name: php  # PHPコンテナの名前
+    container_name: php
     build:
-      context: .  # ビルドコンテキスト
-      dockerfile: ./docker/php/Dockerfile  # 使用するDockerfile
+      context: .
+      dockerfile: ./docker/php/Dockerfile
     depends_on:
-      - db  # このサービスが依存するサービス
+      - db
+      - mailpit  # mailpitサービスに依存
     volumes:
-      - ./laravel:/var/www/html  # ソースコードのマウント
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini  # PHP設定ファイルのマウント
+      - ./laravel:/var/www/html
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
       
   db:
-    container_name: mysql  # MySQLコンテナの名前
-    image: mysql:8.0.38  # 使用するMySQLイメージ
+    container_name: mysql
+    image: mysql:8.0.38
     volumes:
-      - ./docker/mysql/data:/var/lib/mysql  # MySQLのデータファイル
-      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf  # MySQLの設定ファイル
-      - ./docker/mysql/init.sql:/etc/mysql/init.sql  # 初期化SQLスクリプト
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/mysql/init.sql:/etc/mysql/init.sql
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}  # 環境変数の設定
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
-      - "3306:3306"  # ホストとコンテナのポートマッピング
-    restart: always  # コンテナの再起動ポリシー
+      - "3306:3306"
+    restart: always
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "--host=localhost", "--user=root", "--password=${MYSQL_ROOT_PASSWORD}"]  # ヘルスチェックコマンド
-      interval: 60s  # チェックの間隔
-      timeout: 5s  # タイムアウト
-      retries: 3  # リトライ回数
-      start_period: 30s  # 起動後の猶予時間
+      test: ["CMD", "mysqladmin", "ping", "--host=localhost", "--user=root", "--password=${MYSQL_ROOT_PASSWORD}"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
   redis:
-    image: redis:alpine  # 使用するRedisイメージ
-    container_name: redis  # Redisコンテナの名前
+    image: redis:alpine
+    container_name: redis
     ports:
-      - "6379:6379"  # ホストとコンテナのポートマッピング
-    # Redisに関連する設定や最適化が必要な場合があります。
+      - "6379:6379"
+
+  mailpit:
+    image: axllent/mailpit  # Mailpitの公式イメージ
+    container_name: mailpit
+    ports:
+      - "1025:1025"  # SMTPポート
+      - "8025:8025"  # Webインターフェイスポート
+
 networks:
   default:
     driver: bridge
