@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    @if(count($templates) > 0)
+    @if(isset($templates) && count($templates) > 0)
         <h5 class="text-center text-danger">Template list</h5>
         
         <table class="search">
             <form action="{{ route('search') }}" method="get">
                 <td>
-                    <input type="text" name="keyword" class="form-control" placeholder="Search Templates title.">
+                    <input type="text" name="keyword" class="form-control" placeholder="Search Templates title." required>
                 </td>
                 <td>
                     <button type="submit" class="btn btn-success text-white">
@@ -21,18 +21,23 @@
             <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort</button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                 <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at']) }}">Create Date</a>
+                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'asc']) }}">Create Date Ascending</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'desc']) }}">Create Date Descending</a>
                 </li>
                 <li class="dropdown-divider"></li>
                 <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at']) }}">Update Date</a>
+                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'asc']) }}">Update Date Ascending</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'desc']) }}">Update Date Descending</a>
                 </li>
             </ul>
         </div>
-        
+
         <!-- テンプレートを繰り返し表示する -->
         @foreach ($templates as $template)
-                            
             <!-- 更新のフォームアクション -->
             <form action="{{ route('templates.update', $template->id) }}" method="post">
                 @csrf
@@ -63,19 +68,22 @@
                         </div>
                     </form>
                         
-                        <!-- クリップボードにコピーするボタン -->
-                        <div class="flex_test-item">
-                            <button type="button" onclick="copyToClipboard()" class="btn btn-info">Copy</button>
-                        </div>
+                    <!-- クリップボードにコピーするボタン -->
+                    <div class="flex_test-item">
+                        <button type="button" onclick="copyToClipboard()" class="btn btn-info">Copy</button>
                     </div>
-                    
-                    <!-- テンプレート間の仕切り -->
-                    <div class="dropdown-divider"></div>
                 </div>
+                    
+                <!-- テンプレート間の仕切り -->
+                <div class="dropdown-divider"></div>
+            </div>
         @endforeach
                 
         <!-- ページネーション -->
-        {{ $templates->links('pagination::bootstrap-4') }}
+        <div class="d-flex justify-content-center">
+            {{ $templates->links('pagination::bootstrap-4') }}
+	</div>
+
     @else
         <h5 class="mt-5 text-center">Template is not found.</h5>
     @endif
