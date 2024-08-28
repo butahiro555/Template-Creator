@@ -20,20 +20,25 @@
                             </li>
                             <li class="dropdown-divider"></li>
                             <li class="text-center dropdown-item">
-                                <a href="#">Template list</a>
+                                <a href="{{ route('templates.show') }}">Template list</a>
                             </li>
                             <li class="dropdown-divider"></li>
                             <li class="text-center dropdown-item">
-                                <a href="#">Logout</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
                             </li>
                         </ul>
                     </li>
                 @else
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Signup</a>
+                        <a href="{{ route('temp-user.create') }}" class="nav-link">Signup</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Login</a>
+                        <a href="{{ route('login') }}" class="nav-link">Login</a>
                     </li>
                 @endif
 	   		</ul> 
