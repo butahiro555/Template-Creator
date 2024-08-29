@@ -32,7 +32,7 @@ class TempUsersController extends Controller
         $token = $tempUser->token;
 
         // 確認メール用のURLを生成
-        $verificationUrl = route('verify.email', ['token' => $token]);
+        $verificationUrl = route('register.show', ['token' => $token]);
 
         // セッションに認証コードとトークンを保存
         session(['verification_code' => $verificationCode, 'email' => $request->email, 'token' => $token]);
@@ -42,22 +42,4 @@ class TempUsersController extends Controller
 
         return view('auth.verify-email');
     }
-
-    // メール送信後の画面
-    public function verifyEmail($token)
-    {
-        // トークンに基づいて仮ユーザーを取得
-        $tempUser = TempUser::where('token', $token)
-                             ->where('token_expires_at', '>', now())
-                             ->first();
-
-        if (!$tempUser) {
-            return redirect()->route('temp-user.create')->withErrors('Invalid or expired token.');
-        }
-
-        // トークンが有効な場合の処理をここに追加
-
-        return view('auth.register', ['email' => $tempUser->email]);
-    }
 }
-

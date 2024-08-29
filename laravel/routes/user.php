@@ -12,10 +12,8 @@ Route::middleware('guest')->group(function () {
     Route::post('register/temp', [TempUsersController::class, 'store'])->name('temp-user.store');
     Route::get('/verify-email/{token}', [TempUsersController::class, 'verifyEmail'])->name('verify.email');
 
-    // 本登録画面表示用のGETルート
+    // 本登録関連
 	Route::get('register', [UsersController::class, 'showRegistrationForm'])->name('register.show');
-	
-	// 本登録関連
     Route::post('register', [UsersController::class, 'register'])->name('register');
 
     // ログイン関連
@@ -25,12 +23,6 @@ Route::middleware('guest')->group(function () {
 
 // 認証されたユーザーにアクセスを許可するためのルートグループ
 Route::middleware('auth')->group(function () {
-    // ログアウト関連
-    Route::post('logout', [AuthsController::class, 'logout'])->name('logout');
-    
-    // 認証後のリダイレクト先などを設定するルート
-    Route::get('home', function () {
-        return view('home'); // 認証後のリダイレクト先のビューを設定
-    })->name('home');
-});
 
+    Route::post('logout', [AuthsController::class, 'logout'])->name('logout');// ログアウト関連
+});
