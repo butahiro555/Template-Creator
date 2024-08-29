@@ -13,16 +13,20 @@
             <div class="text-center">
                 <h1>Temporary Registration</h1>
             </div>
-            <form method="POST" action="{{ route('temp-user.store') }}">
+            <form method="POST" action="{{ route('temp-user.handle') }}">
                 @csrf
                 <div class="mb-3">
                     <x-input-label for="email" :value="__('Email')" />
                     <x-text-input id="email" class="form-control" type="email" name="email" required />
                     <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
                 </div>
+                
                 <div class="text-right">
-                    <x-primary-button class="btn btn-success">
+                    <x-primary-button class="btn btn-success" name="action" value="send_verification">
                         {{ __('Send Verification Email') }}
+                    </x-primary-button>
+                    <x-primary-button class="btn btn-info" name="action" value="resend_verification">
+                        {{ __('Resend Verification Email') }}
                     </x-primary-button>
                 </div>
             </form>
