@@ -35,7 +35,7 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a href="{{ route('temp-user.create') }}" class="nav-link">Signup</a>
+                        <a href="{{ route('temp-user.index') }}" class="nav-link">Signup</a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('login') }}" class="nav-link">Login</a>
