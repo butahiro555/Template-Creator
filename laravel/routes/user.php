@@ -7,22 +7,23 @@ use Illuminate\Support\Facades\Route;
 
 // ゲストユーザーにアクセスを許可するためのルートグループ
 Route::middleware('guest')->group(function () {
-    // 仮ユーザー登録関連
-    Route::get('register/temp', [TempUsersController::class, 'create'])->name('temp-user.create');
-    Route::post('register/temp', [TempUsersController::class, 'store'])->name('temp-user.store');
-    Route::get('/verify-email/{token}', [TempUsersController::class, 'verifyEmail'])->name('verify.email');
 
-    // 本登録関連
-	Route::get('register', [UsersController::class, 'showRegistrationForm'])->name('register.show');
-    Route::post('register', [UsersController::class, 'register'])->name('register');
+    // ユーザー仮登録
+    Route::get('register/temp', [TempUsersController::class, 'create'])->name('temp-user.create'); // ユーザー仮登録画面を表示
+    Route::post('register/temp', [TempUsersController::class, 'store'])->name('temp-user.store'); // ユーザー仮登録情報を送信
 
-    // ログイン関連
-    Route::get('login', [AuthsController::class, 'showLoginForm'])->name('login');
-    Route::post('login', [AuthsController::class, 'login']);
+    // ユーザー本登録
+	Route::get('register/{token}', [UsersController::class, 'showRegistrationForm'])->name('register.show'); // トークンURLを持った専用ユーザー登録画面を表示
+    Route::post('register', [UsersController::class, 'register'])->name('register'); // ユーザー登録情報を送信
+
+    // ログイン
+    Route::get('login', [AuthsController::class, 'showLoginForm'])->name('login'); // ログイン画面を表示
+    Route::post('login', [AuthsController::class, 'login']); // ログイン情報を送信
 });
 
 // 認証されたユーザーにアクセスを許可するためのルートグループ
 Route::middleware('auth')->group(function () {
 
-    Route::post('logout', [AuthsController::class, 'logout'])->name('logout');// ログアウト関連
+    // ログアウト
+    Route::post('logout', [AuthsController::class, 'logout'])->name('logout');
 });
