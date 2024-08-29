@@ -26,7 +26,7 @@ class UsersController extends Controller
                                 ->first();
 
         if (!$tempUser) {
-            return redirect()->route('temp-user.create')->withErrors('Invalid or expired token.');
+            return redirect()->route('temp-user.index')->withErrors('Invalid or expired token.');
         }
 
         // トークンが有効な場合の処理をここに追加
