@@ -16,19 +16,22 @@ class UsersController extends Controller
 {
     // 本登録ページを表示するメソッド
     public function showRegistrationForm(Request $request)
-    {
-        $token = $request->query('token');
+    {   
+        // リクエストからトークンを取得
+        $token = $request->token;
 
-        // トークンが有効であるか確認
+        // トークンに基づいて仮ユーザーを取得
         $tempUser = TempUser::where('token', $token)
-            ->where('token_expires_at', '>', Carbon::now())
-            ->firstOrFail();
+                                ->where('token_expires_at', '>', now())
+                                ->first();
 
-        // トークンとメールアドレスをビューに渡す
-        return view('auth.register', [
-            'email' => $tempUser->email,
-            'token' => $token
-        ]);
+        if (!$tempUser) {
+            return redirect()->route('temp-user.create')->withErrors('Invalid or expired token.');
+        }
+
+        // トークンが有効な場合の処理をここに追加
+
+        return view('auth.register', ['email' => $tempUser->email]);
     }
 
     public function register(Request $request)
@@ -60,7 +63,7 @@ class UsersController extends Controller
         Mail::to($tempUser->email)->send(new RegistrationCompleted());
 
         // ログイン画面にリダイレクト
-        return redirect()->route('login')->with('status', 'Registration completed. You can now log in.');
+        return redirect()->route('login')->with('status', 'Registration completed!');
     }
 }
 
