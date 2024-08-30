@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TempUser;
 use App\Models\User;
 use App\Mail\VerificationEmail;
-use App\Http\Controllers\ValidationController;
+use App\Http\Controllers\ValidationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
@@ -13,6 +13,16 @@ use Carbon\Carbon;
 
 class TempUsersController extends Controller
 {   
+    // 初期化するための変数を準備
+    protected $validationsController;
+
+    // コンストラクタで ValidationsController のインスタンスを受け取り、プロパティに代入
+    public function __construct(ValidationsController $validationsController)
+    {
+        // 受け取った ValidationsController インスタンスをプロパティに設定
+        $this->validationsController = $validationsController;
+    }
+
     // メール認証送信画面を表示
     public function tempRegister()
     {
@@ -34,10 +44,11 @@ class TempUsersController extends Controller
         }
     }
 
-    // メール認証送信
+// メール認証送信
     public function send(Request $request)
     {
-        $this->validateEmail($request);
+        // ValidationsController の validateEmail メソッドを呼び出して、メールアドレスのバリデーションを実行
+        $this->validationsController->validateEmail($request);
 
         // 入力されたメールアドレスが、登録済みかを確認する
         $checkRegisteredTempUsers = TempUser::where('email', $request->email)->first();
@@ -60,9 +71,9 @@ class TempUsersController extends Controller
     // メール認証再送信
     public function resend(Request $request)
     {
-        $this->validateEmail($request);
-
-        // 仮ユーザーを検索
+        $this->validationsController->validateEmail($request);
+	
+	// 仮ユーザーを検索
         $tempUser = TempUser::where('email', $request->email)->first();
 
         // 仮ユーザー登録済みかをチェック
