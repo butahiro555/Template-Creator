@@ -1,3 +1,4 @@
+# ベースイメージの設定
 FROM php:8.3-fpm
 
 # 必要なパッケージのインストールとクリーンアップ
@@ -8,6 +9,7 @@ RUN apt-get update && \
     zip \
     unzip \
     curl \
+    procps \
     && docker-php-ext-install pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
 
