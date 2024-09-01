@@ -12,12 +12,13 @@ class TempUser extends Model
     use HasFactory;
 
     protected $fillable = [
-        'email',
-        'verification_code',
-        'verification_code_expires_at',
-        'token',
-        'token_expires_at', // ここにtoken_expires_atを追加
-	    'expires_at', // 追加
+        'email', // メールアドレス
+        'verification_code', // 認証コード有効期限
+        'verification_code_expires_at', // 認証コード有効期限
+        'token', // トークンコード
+        'token_expires_at', // トークン有効期限
+	    'expires_at', // 有効期間追加
+        'resend_count', // 再送信カウント
     ];
 
     public static function createOrUpdateTempUser($email)
