@@ -73,7 +73,7 @@ class TempUsersController extends Controller
     {
         $this->validationsController->validateEmail($request);
 	
-	// 仮ユーザーを検索
+	    // 仮ユーザーを検索
         $tempUser = TempUser::where('email', $request->email)->first();
 
         // 仮ユーザー登録済みかをチェック
@@ -81,7 +81,16 @@ class TempUsersController extends Controller
             return redirect()->back()->withErrors(['email' => 'Email address not found.']);
         }
 
-        return $this->processVerification($request);
+        // 再送信回数をチェック
+        if ($tempUser->resend_count < 5) {
+            // 再送信回数を増やす
+            $tempUser->resend_count += 1;
+            $tempUser->save();
+
+            return $this->processVerification($request);
+        } else {
+            return redirect()->back()->withErrors(['email' => 'No further authorisation codes can be issued for this email address.']);
+        }
     }
 
     // 仮ユーザー情報のバリデーションチェックおよび、メール送信
