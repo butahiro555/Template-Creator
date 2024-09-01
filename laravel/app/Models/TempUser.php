@@ -17,6 +17,7 @@ class TempUser extends Model
         'verification_code_expires_at',
         'token',
         'token_expires_at', // ここにtoken_expires_atを追加
+	    'expires_at', // 追加
     ];
 
     public static function createOrUpdateTempUser($email)
@@ -25,6 +26,7 @@ class TempUser extends Model
         $verificationCodeExpiresAt = Carbon::now()->addHours(5); // 認証コードの有効期限を5時間後に設定
         $token = Str::random(32); // トークンを生成
         $tokenExpiresAt = Carbon::now()->addHours(5); // トークンの有効期限を5時間後に設定
+	    $expiresAt = Carbon::now()->addHours(1); // 1時間後に設定
 
         // 条件付き挿入または更新
         return self::updateOrCreate(
@@ -33,7 +35,8 @@ class TempUser extends Model
                 'verification_code' => $verificationCode,
                 'verification_code_expires_at' => $verificationCodeExpiresAt,
                 'token' => $token,
-                'token_expires_at' => $tokenExpiresAt,
+		        'token_expires_at' => $tokenExpiresAt,
+		        'expires_at' => $expiresAt,
             ] // 更新または作成する値
         );
     }
@@ -52,3 +55,4 @@ class TempUser extends Model
         ]);
     }
 }
+
