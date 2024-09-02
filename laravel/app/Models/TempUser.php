@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use App\Services\TokenService; // トークンサービスをインポート
 
 class TempUser extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+
         'email', // メールアドレス
         'verification_code', // 認証コード有効期限
         'verification_code_expires_at', // 認証コード有効期限
@@ -21,24 +23,18 @@ class TempUser extends Model
         'resend_count', // 再送信カウント
     ];
 
+    // TokenServiceクラスを利用
     public static function createOrUpdateTempUser($email)
     {
-        $verificationCode = Str::upper(Str::random(5)); // 認証コードを生成
-        $verificationCodeExpiresAt = Carbon::now()->addHours(5); // 認証コードの有効期限を5時間後に設定
-        $token = Str::random(32); // トークンを生成
-        $tokenExpiresAt = Carbon::now()->addHours(5); // トークンの有効期限を5時間後に設定
-	    $expiresAt = Carbon::now()->addHours(1); // 1時間後に設定
-
-        // 条件付き挿入または更新
         return self::updateOrCreate(
             ['email' => $email], // 検索条件
             [
-                'verification_code' => $verificationCode,
-                'verification_code_expires_at' => $verificationCodeExpiresAt,
-                'token' => $token,
-		        'token_expires_at' => $tokenExpiresAt,
-		        'expires_at' => $expiresAt,
-            ] // 更新または作成する値
+                'verification_code' => TokenService::generateVerificationCode(),
+                'verification_code_expires_at' => TokenService::calculateExpiry(),
+                'token' => TokenService::generateToken(),
+                'token_expires_at' => TokenService::calculateExpiry(),
+                'expires_at' => TokenService::calculateExpiry(60), // 仮ユーザーの有効期限のみ60分に設定
+            ]
         );
     }
 
@@ -56,4 +52,3 @@ class TempUser extends Model
         ]);
     }
 }
-
