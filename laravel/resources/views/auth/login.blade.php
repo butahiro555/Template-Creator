@@ -49,12 +49,10 @@
             </div>
 
             <div class="d-flex justify-content-between align-items-center mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-                <div class="d-flex w-50">
+                <a href="{{ route('forgot-password.index') }}" style="color: blue; text-decoration: underline;">
+                    {{ __('Forgot your password?') }}
+                </a>
+		<div class="d-flex w-50">
                     <!-- Login Button -->
                     <x-primary-button class="btn btn-success flex-grow-1">
                         {{ __('Log in') }}
