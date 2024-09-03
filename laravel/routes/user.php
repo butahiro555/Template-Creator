@@ -3,6 +3,7 @@
 use App\Http\Controllers\TempUsersController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AuthsController;
+use App\Http\Controllers\ForgotPasswordUsersController;
 use Illuminate\Support\Facades\Route;
 
 // ゲストユーザーにアクセスを許可するためのルートグループ
@@ -21,6 +22,12 @@ Route::middleware('guest')->group(function () {
     // ログイン
     Route::get('login', [AuthsController::class, 'showLoginForm'])->name('login'); // ログイン画面を表示
     Route::post('login', [AuthsController::class, 'login']); // ログイン情報を送信
+
+    // パスワードリセット
+    Route::get('forgot-password', [ForgotPasswordUsersController::class, 'forgotPasswordForm'])->name('forgot-password.index'); // パスワード再設定画面を表示
+    Route::post('forgot-password/send', [ForgotPasswordUsersController::class, 'sendResetForUser'])->name('forgot-password.send'); // 登録メールアドレス宛にパスワード再設定リンクURLを送信
+    Route::get('forgot-password/resetform', [ForgotPasswordUsersController::class, 'showResetForm'])->name('forgot-password.resetform'); // トークンURLを持った専用ユーザーパスワードリセット画面を表示
+    Route::post('forgot-password/reset', [ForgotPasswordUsersController::class, 'passwordReset'])->name('forgot-password.reset'); // 再設定パスワードを送信
 });
 
 // 認証されたユーザーにアクセスを許可するためのルートグループ
