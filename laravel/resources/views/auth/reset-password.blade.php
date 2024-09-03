@@ -11,18 +11,25 @@
     <div class="d-flex justify-content-center align-items-center" style="min-height: 85vh;">
         <div class="rounded border p-4 shadow-sm" style="max-width: 500px; width: 100%;">
             <div class="text-center">
-                <h1>Password Reset</h1>
-            </div>    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+                <h1>Signup</h1>
+            </div>
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+            <!-- Registration Form Start -->
+            <form method="POST" action="{{ route('forgot-password.reset') }}">
+                @csrf
 
-                <!-- Email Address -->
-                <div class="mb-3">
+                <!-- Email -->
+                <div class="mb-3 mt-3">
                     <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required autocomplete="username" />
+                    <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email') ?? $email" required readonly />
                     <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
+                </div>
+
+                <!-- Verification Code -->
+                <div class="mb-3">
+                    <x-input-label for="verification_code" :value="__('Verification Code')" />
+                    <x-text-input id="verification_code" class="form-control" type="text" name="verification_code" required />
+                    <x-input-error :messages="$errors->get('verification_code')" class="mt-2 text-danger" />
                 </div>
 
                 <!-- Password -->
@@ -40,13 +47,13 @@
                 </div>
 
 		        <div class="d-flex justify-content-end align-items-center mt-4">
-                    <!-- Register Button -->
+                    <!-- Reset Button -->
                     <x-primary-button class="btn btn-info" style="width: auto;">
                         {{ __('Password Reset') }}
                     </x-primary-button>
 
                     <!-- Cancel Button -->
-		    <x-primary-button type="button" class="btn btn-secondary w-25:" onclick="window.location.href='{{ route('templates.index') }}'">
+		            <x-primary-button type="button" class="btn btn-secondary w-25:" onclick="window.location.href='{{ route('templates.index') }}'">
                         {{ __('Cancel') }}
                     </x-primary-button>
                 </div>
@@ -60,4 +67,3 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
