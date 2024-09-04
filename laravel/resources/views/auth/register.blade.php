@@ -14,6 +14,13 @@
                 <h1>Signup</h1>
             </div>
 
+            <!-- エラーメッセージ -->
+            @if ($errors->has('verification'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('verification') }}
+                </div>
+            @endif
+
             <!-- Registration Form Start -->
             <form method="POST" action="{{ route('register') }}">
                 @csrf
@@ -59,7 +66,7 @@
                     </a>
                     <div class="d-flex w-50">
                         <!-- Register Button -->
-                        <x-primary-button class="btm-primary flex-grow-1">
+                        <x-primary-button class="btn-primary flex-grow-1">
                             {{ __('Register') }}
                         </x-primary-button>
                         <!-- Cancel Button -->
