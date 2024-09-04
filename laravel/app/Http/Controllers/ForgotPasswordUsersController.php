@@ -79,11 +79,7 @@ class ForgotPasswordUsersController extends Controller
     // パスワードリセット
     public function passwordReset(Request $request)
     {
-        $validatedData = $request->validate([
-            'email' => ['required', 'email'],
-            'verification_code' => ['required', 'string', 'size:5'],
-            'password' => ['required', 'string', 'confirmed', 'min:8'],
-        ]);
+        $this->validationsController->validateAuthInputs($request);
     
         try {
             // トークンと認証コードを検証
@@ -91,9 +87,11 @@ class ForgotPasswordUsersController extends Controller
                 ->where('verification_code', $request->verification_code)
                 ->where('verification_code_expires_at', '>', Carbon::now())
                 ->firstOrFail();
+
         } catch (ModelNotFoundException $e) {
+
             // 認証コードが一致しない、またはトークンが無効な場合
-            return redirect()->back()->withErrors(['verification_code' => 'Invalid or expired verification code.']);
+            return redirect()->back()->withErrors(['verification' => trans('validation.verification_invalid')]);
         }
     
         // 本登録ユーザーのパスワードを更新　
