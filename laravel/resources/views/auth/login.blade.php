@@ -16,15 +16,25 @@
             <h1>Login</h1>
         </div>
         
-        <!-- Flash Messages -->
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
+            <!-- Flash Messages -->
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
 
-        <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}">
             @csrf
+
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
             <!-- Email Address -->
             <div class="mb-3">
@@ -49,7 +59,7 @@
             </div>
 
             <div class="d-flex justify-content-between align-items-center mt-4">
-                <a href="{{ route('forgot-password.index') }}" style="color: blue; text-decoration: underline;">
+                <a href="{{ route('forgot-password.index') }}">
                     {{ __('Forgot your password?') }}
                 </a>
 		<div class="d-flex w-50">
@@ -74,4 +84,3 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
