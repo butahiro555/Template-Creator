@@ -29,13 +29,13 @@ class TempUser extends Model
         return self::updateOrCreate(
             ['email' => $email], // 検索条件
             [
-                'verification_code' => TokenService::generateVerificationCode(),
-                'verification_code_expires_at' => TokenService::calculateExpiry(),
-                'token' => TokenService::generateToken(),
-                'token_expires_at' => TokenService::calculateExpiry(),
-                'expires_at' => TokenService::calculateExpiry(60), // 仮ユーザーの有効期限のみ60分に設定
+            'verification_code' => TokenService::generateVerificationCode(),
+            'verification_code_expires_at' => TokenService::calculateExpiry(),
+            'token' => TokenService::generateToken(),
+            'token_expires_at' => TokenService::calculateExpiry(10), // デフォルトの5分を10分に変更
+            'expires_at' => TokenService::calculateExpiry(60), // デフォルトの5分を60分に変更
             ]
-        );
+            );
     }
 
     public function isVerificationCodeValid($code)
