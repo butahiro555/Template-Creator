@@ -13,6 +13,14 @@
             <div class="text-center">
                 <h1>Temporary Registration</h1>
             </div>
+            
+            <!-- エラーメッセージ -->
+            @if ($errors->has('verification'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('verification') }}
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('temp-user.handle') }}">
                 @csrf
                 <div class="mb-3">
@@ -38,4 +46,3 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
