@@ -45,78 +45,49 @@ class UsersController extends Controller
     }
 
     public function register(Request $request)
-    {   
-	    $this->validationsController->validateRegisterForm($request);
-	    
-	    $token = $request->token;
+    {
+        $this->validationsController->validateRegisterForm($request);
 
-	    // トークンに基づいて仮ユーザーを取得
-        $tempUser = TempUser::where('token', $token)
-                            ->where('token_expires_at', '>', now())
-                            ->first();
-    
-        // 仮ユーザーが存在するか確認
-        if (is_null($tempUser)) {
-            Log::info('Verification code error:', [
-                'input_code' => $request->verification_code,
-                'saved_code' => 'TempUser not found'
-            ]);
-            return redirect()->back()->withErrors(['verification' => trans('validation.verification_invalid')]);
+        // メールアドレスをリクエストから取得
+        $email = $request->input('email');
+        
+        // 仮ユーザーをメールアドレスで取得
+        $tempUser = TempUser::where('email', $email)->first();
+        
+        // 仮ユーザーが存在しない場合の処理
+        if (!$tempUser) {
+            return redirect()->back()->withErrors(['email' => 'ユーザー情報が見つかりません。']);
         }
 
         // 認証コードを確認
-        if ($tempUser->verification_code !== $request->verification_code) {
-            Log::info('Verification code error:', [
-                'input_code' => $request->verification_code,
-                'saved_code' => $tempUser->id
-            ]);
+        if (is_null($tempUser->verification_code) || $tempUser->verification_code !== $request->verification_code) {
             return redirect()->back()->withErrors(['verification' => trans('validation.verification_code_incorrect')]);
         }
 
-        // 検証コードの有効期限を確認
-        if ($tempUser->verification_code_expires_at <= Carbon::now()) {
-            Log::info('Verification code error:', [
-                'input_code' => $request->verification_code,
-                'saved_code' => 'Verification code expired'
-            ]);
+        // 認証コードの有効期限を確認
+        if (is_null($tempUser->verification_code_expires_at) || $tempUser->verification_code_expires_at <= now()) {
             return redirect()->back()->withErrors(['verification' => trans('validation.verification_code_expired')]);
         }
-
-        // トークンの有効期限を確認
-        if ($tempUser->token_expires_at <= Carbon::now()) {
-            Log::info('Verification code error:', [
-                'input_code' => $request->token_expires_at,
-                'saved_code' => 'Token expired'
-            ]);
-            return redirect()->back()->withErrors(['verification' => trans('validation.token_expired')]);
-        }
-
-            // すべての条件が満たされない場合のデフォルトエラー
-            Log::info('Unexpected verification error:', [
-                'input_code' => $request->verification_code,
-                'saved_code' => 'Unexpected error'
-            ]);
-            return redirect()->back()->withErrors(['verification' => trans('validation.unexpected_error')]);
         
-            // 本登録ユーザーを作成
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $tempUser->email,
-                'password' => Hash::make($request->password),
-            ]);
-    
+        // 本登録ユーザーを作成
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $tempUser->email,
+            'password' => Hash::make($request->password),
+        ]);
+
         // 仮ユーザーのデータを削除
         $tempUser->delete();
-    
+
         // 本登録完了メールを送信
         Mail::to($tempUser->email)->send(new RegistrationCompleted());
-    
-        // ログイン画面にリダイレクト
-	    Log::info('Redirecting to login with success status.');
 
-	    // セッションの内容をログに出力
+        // ログイン画面にリダイレクト
+        Log::info('Redirecting to login with success status.');
+            
+        // セッションの内容をログに出力
         Log::info('Session Data After Success:', ['session' => $request->session()->all()]);
-	
-	return redirect()->route('login')->with('status', '登録が完了しました！');
+    
+    return redirect()->route('login')->with('status', '登録が完了しました！');
     } 
 }
