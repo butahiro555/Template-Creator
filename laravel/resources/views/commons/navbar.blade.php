@@ -16,7 +16,7 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li class="text-center dropdown-item">
-                                <a href="#">Profile</a>
+                                <a href="{{ route('profile.index') }}">Profile</a>
                             </li>
                             <li class="dropdown-divider"></li>
                             <li class="text-center dropdown-item">
