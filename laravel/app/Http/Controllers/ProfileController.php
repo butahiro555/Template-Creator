@@ -2,59 +2,149 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
+use App\Http\Controllers\ValidationsController;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    // 初期化するための変数を準備
+    protected $validationsController;
+
+    // コンストラクタで ValidationsController のインスタンスを受け取り、プロパティに代入
+    public function __construct(ValidationsController $validationsController)
     {
-        return view('profile.edit', [
+        // 受け取った ValidationsController インスタンスをプロパティに設定
+        $this->validationsController = $validationsController;
+    }
+
+    public function showProfile(Request $request): View
+    {
+        return view('profile.index', [
             'user' => $request->user(),
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function showEditNameForm(Request $request): View
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // ユーザーオブジェクト全体をビューに渡す
+        return view('profile.edit-name', [
+            'user' => $request->user(), // ユーザーオブジェクト全体を渡す
+        ]);
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+    public function updateNameSend(Request $request): RedirectResponse
+    {   
+        $validatedData = $this->validationsController->validateName($request);
+    
+        $user = $request->user();
+    
+        // 名前が変更されているかのチェック
+        if ($user->name !== $validatedData['name']) {
+            $user->name = $validatedData['name'];
+            $user->save();
+    
+            // プロフィール画面にリダイレクトし、成功メッセージを表示
+            return redirect()->route('profile.index')->with('status', 'profile-updated');
+        } else {
+            // 名前が変更されていない場合、エラーメッセージを返す
+            return redirect()->back()->withErrors(['name' => 'No change in your name.']);
+        }
+    }
 
+    // 現パスワード入力フォームの表示
+    public function confirmCurrentPasswordForm(Request $request): View
+    {
+        return view('profile.password-confirm-form', [
+            'user' => $request->user(),
+        ]);
+    }
+
+    // 現パスワードの確認処理
+    public function confirmCurrentPassword(Request $request): RedirectResponse
+    {
         $user = $request->user();
 
-        Auth::logout();
+        if (Hash::check($request->password, $user->password)) {
+            return redirect()->route('profile.edit-password');
+        } else {
+            return redirect()->back()->withErrors(['password' => 'Wrong your current password.']);
+        }
+    }
 
-        $user->delete();
+    // パスワード変更フォームの表示
+    public function showEditPasswordForm(Request $request): View
+    {
+        if ($request->session()->has('password_changed')) {
+            $request->session()->forget('password_changed'); // フラグをリセットする
+        }
 
+        return view('profile.edit-password');
+    }
+
+    // パスワード変更処理
+    public function updatePasswordSend(Request $request): RedirectResponse
+    {
+        $validatedData = $this->validationsController->validatePassword($request);
+        $user = $request->user();
+        
+        if (!Hash::check($validatedData['password'], $user->password)) {
+            $user->password = Hash::make($validatedData['password']);
+            $user->save();
+
+            // セッションの再生成
+            $request->session()->regenerate();
+
+            return redirect()->route('profile.index')->with('status', 'profile-updated');
+        } else {
+            return redirect()->back()->withErrors(['password' => 'No change in your password.']);
+        }
+    }
+
+    // 退会希望者の現パスワード入力フォームの表示
+    public function confirmCurrentPasswordFormForDeleteUser(Request $request): View
+    {
+        return view('profile.delete-user-password-confirm-form', [
+            'user' => $request->user(),
+        ]);
+    }
+
+    // 退会希望者の現パスワードの確認処理
+    public function confirmCurrentPasswordForDeleteUser(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        if (Hash::check($request->password, $user->password)) {
+            return redirect()->route('profile.delete-user-form');
+        } else {
+            return redirect()->back()->withErrors(['password' => 'Wrong your current password.']);
+        }
+    }
+
+    // 退会確認画面
+    public function deleteUserForm(Request $request): View
+    {
+        return view('profile.delete-user-form');
+    }
+
+    // 退会処理
+    public function destroy(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        
+        Auth::logout();  // ログアウト処理
+        $user->delete(); // ユーザーの削除
+    
+        // セッションの無効化
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+    
+        return redirect()->route('goodbye'); // 退会完了後、専用ページへリダイレクト
     }
 }
