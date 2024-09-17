@@ -1,9 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('passwordForm').addEventListener('submit', function(event) {
-        // フォームが送信された後に少し遅延してパスワードフィールドをクリア
-        setTimeout(function() {
-            document.getElementById('password').value = '';
-            document.getElementById('password_confirmation').value = '';
-        }, 10); // 10ms遅延
+    // 全てのフォームを監視
+    const forms = document.querySelectorAll('form');
+    
+    forms.forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+            // 少し遅延させてパスワードフィールドをクリア
+            setTimeout(function() {
+                // 全てのパスワードフィールドを取得し、値をクリア
+                const passwordFields = form.querySelectorAll('input[type="password"]');
+                
+                passwordFields.forEach(function(field) {
+                    field.value = '';
+                });
+            }, 10); // 10ms遅延
+        });
     });
 });
