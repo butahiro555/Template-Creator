@@ -1,21 +1,20 @@
 # ベースイメージの設定
 FROM php:8.3-fpm
 
-# 必要なパッケージのインストールとクリーンアップ
+# 必要なパッケージのインストールと一括アップデート
 RUN apt-get update && \
     apt-get install -y \
-    git \
     vim \
     zip \
     unzip \
     curl \
     procps \
+    zlib1g \
+    libexpat1 \
+    && apt-get upgrade -y \
+    && apt-get dist-upgrade -y \
     && docker-php-ext-install pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
-
-# Node.jsのインストール
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
-    && apt-get install -y nodejs
 
 # Composerのインストール
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
