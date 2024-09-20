@@ -7,8 +7,9 @@
 7. Setting your parameter on my.cnf
 8. $ cd ../..
 9. $ docker compose up -d
-10. $ cd laravel11. $ docker compose exec -it app bash
+10. $ docker compose exec -it app bash
 11. $ chmod -R guo+w storage
 12. $ php artisan storage:link
-13. Link the parameters mysql_parameter in docker_project/.env and DB_parameter in laravel/.env.
-14. $ php artisan migrate
+13. mv .env.example .env
+14. Link the parameters mysql_parameter in docker_project/.env and DB_parameter in laravel/.env.
+15. $ php artisan migrate
