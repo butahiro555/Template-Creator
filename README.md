@@ -8,7 +8,7 @@
 8. $ cd ../..
 9. $ docker compose up -d
 10. $ docker compose exec -it app bash
-11. $ chmod -R guo+w storage
+11. chown -R www-data:www-data /var/www/html/storage
 12. composer install
 13. $ php artisan storage:link
 14. mv .env.example .env
