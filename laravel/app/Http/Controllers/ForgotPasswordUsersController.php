@@ -38,7 +38,7 @@ class ForgotPasswordUsersController extends Controller
         
         // 登録済みユーザーかをチェック
         if (!$checkRegisteredUsers) {
-            return redirect()->back()->withErrors(['email' => 'Not registered user.']);
+            return redirect()->back()->withErrors(['email' => trans('error_message.user_not_found')]);
         }
 
         // メールアドレス宛に認証コードとトークンを発行
@@ -69,7 +69,7 @@ class ForgotPasswordUsersController extends Controller
                                 ->first();
 
         if (!$forgotPasswordUser) {
-            return redirect()->route('auth.forgot-password')->withErrors('Invalid or expired token.');
+            return redirect()->route('auth.forgot-password')->withErrors(['expired' => trans('error_message.token_expired')]);
         }
 
         // トークンが有効な場合の処理をここに追加
@@ -91,7 +91,7 @@ class ForgotPasswordUsersController extends Controller
         } catch (ModelNotFoundException $e) {
 
             // 認証コードが一致しない、またはトークンが無効な場合
-            return redirect()->back()->withErrors(['verification' => trans('validation.verification_invalid')]);
+            return redirect()->back()->withErrors(['verification' => trans('error_message.verification_invalid')]);
         }
     
         // 本登録ユーザーのパスワードを更新　
@@ -106,6 +106,6 @@ class ForgotPasswordUsersController extends Controller
         Mail::to($user->email)->send(new PasswordResetCompleted());
     
         // ログイン画面にリダイレクト
-        return redirect()->route('login')->with('status', 'Password reset completed successfully.');
+        return redirect()->route('login')->with(['status' => trans('success_message.password_reset_successful')]);
     }
 }
