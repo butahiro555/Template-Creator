@@ -38,7 +38,7 @@ class UsersController extends Controller
         // 仮ユーザーが見つからない場合やトークンが期限切れの場合
         if (!$tempUser) {
 
-            return redirect()->route('login')->withErrors(['token' => trans('validation.token_expired')]);
+            return redirect()->route('login')->withErrors(['token' => trans('error_message.token_expired')]);
         }
     
         return view('auth.register', ['email' => $tempUser->email]);
@@ -56,17 +56,17 @@ class UsersController extends Controller
         
         // 仮ユーザーが存在しない場合の処理
         if (!$tempUser) {
-            return redirect()->back()->withErrors(['email' => 'ユーザー情報が見つかりません。']);
+            return redirect()->back()->withErrors(['email' => trans('error_message.user_not_found')]);
         }
 
         // 認証コードを確認
         if (is_null($tempUser->verification_code) || $tempUser->verification_code !== $request->verification_code) {
-            return redirect()->back()->withErrors(['verification' => trans('validation.verification_code_incorrect')]);
+            return redirect()->back()->withErrors(['verification' => trans('error_message.verification_code_incorrect')]);
         }
 
         // 認証コードの有効期限を確認
         if (is_null($tempUser->verification_code_expires_at) || $tempUser->verification_code_expires_at <= now()) {
-            return redirect()->back()->withErrors(['verification' => trans('validation.verification_code_expired')]);
+            return redirect()->back()->withErrors(['verification' => trans('error_message.verification_code_expired')]);
         }
         
         // 本登録ユーザーを作成
@@ -88,6 +88,6 @@ class UsersController extends Controller
         // セッションの内容をログに出力
         Log::info('Session Data After Success:', ['session' => $request->session()->all()]);
     
-    return redirect()->route('login')->with('status', '登録が完了しました！');
+    return redirect()->route('login')->with(['status' => trans('success_message.registered_successful')]);
     } 
 }
