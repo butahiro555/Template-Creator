@@ -78,7 +78,7 @@ class TemplatesController extends Controller
 		$template = Template::find($id);
 		
 		if (!$template) {
-        		return redirect()->route('templates.show')->withErrors('Template not found.');
+        		return redirect()->route('templates.show')->withErrors(['text' => trans('error_message.template_not_found')]);
     }
 		
 		$template->delete();
@@ -100,13 +100,10 @@ class TemplatesController extends Controller
     
         // 検索結果が見つからなかった場合のエラーハンドリング
         if (count($template) === 0) {
-            return redirect()->route('templates.show')->withErrors('Template not found.');
+            return redirect()->route('templates.show')->withErrors(['text' => trans('error_message.template_not_found')]);
         }
     
         // ビューに検索結果を渡す
         return view('templates.show', ['templates' => $template]);
     }
 }
-
-
-
