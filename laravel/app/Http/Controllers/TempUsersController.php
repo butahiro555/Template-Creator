@@ -40,7 +40,7 @@ class TempUsersController extends Controller
             case 'resend_verification':
                 return $this->resend($request);
             default:
-                return redirect()->back()->withErrors(['action' => 'Invalid action specified.']);
+                return redirect()->back()->withErrors(['action' => trans('error_message.unexpected_error')]);
         }
     }
 
@@ -56,12 +56,12 @@ class TempUsersController extends Controller
 
         // 認証送信済みかをチェック
         if ($checkRegisteredTempUsers) {
-            return redirect()->back()->withErrors(['email' => 'Please confirm your email or resend verify code.']);
+            return redirect()->back()->withErrors(['email' => trans('error_message.confirm_or_resend_your_email')]);
         }
         
         // ユーザー登録済みかをチェック
         if ($checkRegisteredUsers) {
-            return redirect()->back()->withErrors(['email' => 'This email address is already registered.']);
+            return redirect()->back()->withErrors(['email' => trans('error_message.user_already_registered')]);
         }
 
         // 最下部のメソッドを呼び出し
@@ -78,7 +78,7 @@ class TempUsersController extends Controller
 
         // 仮ユーザー登録済みかをチェック
         if (!$tempUser) {
-            return redirect()->back()->withErrors(['email' => 'Email address not found.']);
+            return redirect()->back()->withErrors(['email' => trans('error_message.user_not_found')]);
         }
 
         // 再送信回数をチェック
@@ -89,7 +89,7 @@ class TempUsersController extends Controller
 
             return $this->processVerification($request);
         } else {
-            return redirect()->back()->withErrors(['email' => 'No further authorisation codes can be issued for this email address.']);
+            return redirect()->back()->withErrors(['email' => trans('error_message.resend_limit')]);
         }
     }
 
