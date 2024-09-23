@@ -20,7 +20,7 @@ class AuthsController extends Controller
             return redirect()->intended('/'); // ログイン後のリダイレクト先を設定
         }
 
-        return redirect()->back()->withErrors(['email' => 'Invalid credentials.']);
+        return redirect()->back()->withErrors(['email' => trans('error_message.email_invalid')]);
     }
 
     public function logout()
@@ -29,4 +29,3 @@ class AuthsController extends Controller
         return redirect('/');
     }
 }
-
