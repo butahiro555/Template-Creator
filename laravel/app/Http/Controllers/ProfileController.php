@@ -51,10 +51,12 @@ class ProfileController extends Controller
             $user->save();
     
             // プロフィール画面にリダイレクトし、成功メッセージを表示
-            return redirect()->route('profile.index')->with('status', 'profile-updated');
+            return redirect()->route('profile.index')->with(['status' => trans('success_message.name_change_successful')]);
+
         } else {
+
             // 名前が変更されていない場合、エラーメッセージを返す
-            return redirect()->back()->withErrors(['name' => 'No change in your name.']);
+            return redirect()->back()->withErrors(['name' => trans('error_message.name_not_change')]);
         }
     }
 
@@ -74,7 +76,7 @@ class ProfileController extends Controller
         if (Hash::check($request->password, $user->password)) {
             return redirect()->route('profile.edit-password');
         } else {
-            return redirect()->back()->withErrors(['password' => 'Wrong your current password.']);
+            return redirect()->back()->withErrors(['password' => trans('error_message.password_is_wrong')]);
         }
     }
 
@@ -101,9 +103,9 @@ class ProfileController extends Controller
             // セッションの再生成
             $request->session()->regenerate();
 
-            return redirect()->route('profile.index')->with('status', 'profile-updated');
+            return redirect()->route('profile.index')->with(['status' => trans('success_message.password_change_successful')]);
         } else {
-            return redirect()->back()->withErrors(['password' => 'No change in your password.']);
+            return redirect()->back()->withErrors(['password' => trans('error_message.password_not_change')]);
         }
     }
 
@@ -123,7 +125,7 @@ class ProfileController extends Controller
         if (Hash::check($request->password, $user->password)) {
             return redirect()->route('profile.delete-user-form');
         } else {
-            return redirect()->back()->withErrors(['password' => 'Wrong your current password.']);
+            return redirect()->back()->withErrors(['password' => trans('error_message.password_is_wrong')]);
         }
     }
 
