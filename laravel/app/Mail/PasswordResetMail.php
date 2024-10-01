@@ -31,7 +31,7 @@ class PasswordResetMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Password Reset Mail',
+            subject: '[Template Creator]パスワードリセット',
         );
     }
 
@@ -59,4 +59,3 @@ class PasswordResetMail extends Mailable
         return [];
     }
 }
-
