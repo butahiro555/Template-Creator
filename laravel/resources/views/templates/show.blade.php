@@ -3,13 +3,13 @@
 
 @section('content')
     @if(isset($templates) && count($templates) > 0)
-        <h5 class="text-center text-danger">Template list</h5>
+        <h5 class="text-center text-danger">テンプレート一覧</h5>
         
         <table class="search">
             <tr>
                 <form action="{{ route('search') }}" method="GET">
                     <td>
-                        <input type="text" name="keyword" class="form-control" placeholder="Search Templates title." required>
+                        <input type="text" name="keyword" class="form-control" placeholder="タイトルを検索" required>
                     </td>
                     <td>
                         <button type="submit" class="btn btn-success text-white">
@@ -21,20 +21,20 @@
         </table>
         
         <div class="sort">
-            <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort</button>
+            <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">並び替え</button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                 <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'asc']) }}">Create Date Ascending</a>
+                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'asc']) }}">作成日時 昇順</a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'desc']) }}">Create Date Descending</a>
+                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'desc']) }}">作成日時 降順</a>
                 </li>
                 <li class="dropdown-divider"></li>
                 <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'asc']) }}">Update Date Ascending</a>
+                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'asc']) }}">更新日時 昇順</a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'desc']) }}">Update Date Descending</a>
+                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'desc']) }}">更新日時 降順</a>
                 </li>
             </ul>
         </div>
@@ -58,7 +58,7 @@
                     <div class="flex_test-box">
                         <div class="flex_test-item">
                             <!-- 更新ボタン -->
-                            <button type="submit" class="btn btn-warning text-white update-btn">Update</button>
+                            <button type="submit" class="btn btn-warning text-white update-btn">更新</button>
                         </div>
                 </form>
                         
@@ -67,13 +67,13 @@
                     @csrf
                     @method('DELETE')
                     <div class="flex_test-item">
-                        <button type="submit" class="btn btn-danger delete-btn">Delete</button>
+                        <button type="submit" class="btn btn-danger delete-btn">削除</button>
                     </div>
                 </form>
                         
                 <!-- クリップボードにコピーするボタン -->
                 <div class="flex_test-item">
-                    <button type="button" onclick="copyToClipboard('copyTarget{{ $template->id }}')" class="btn btn-info">Copy</button>
+                    <button type="button" onclick="copyToClipboard('copyTarget{{ $template->id }}')" class="btn btn-info">コピー</button>
                 </div>
             </div>
                     
@@ -88,7 +88,7 @@
         </div>
 
     @else
-        <h5 class="mt-5 text-center">Template is not found.</h5>
+        <h5 class="mt-5 text-center">テンプレートが見つかりません。</h5>
     @endif
 @endsection
 
