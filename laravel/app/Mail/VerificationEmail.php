@@ -26,7 +26,7 @@ class VerificationEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verification Email',
+            subject: '[Template Creator]仮ユーザー登録における、メールアドレスの確認のお知らせ',
         );
     }
 

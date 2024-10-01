@@ -27,7 +27,7 @@ class PasswordResetCompleted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Password Reset Completed',
+            subject: '[Template Creator]パスワードのリセット完了のお知らせ',
         );
     }
 
@@ -51,5 +51,3 @@ class PasswordResetCompleted extends Mailable
         return [];
     }
 }
-
-

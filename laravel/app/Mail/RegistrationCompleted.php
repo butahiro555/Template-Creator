@@ -27,7 +27,7 @@ class RegistrationCompleted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Registration Completed',
+            subject: '[Template Creator]登録完了のお知らせ',
         );
     }
 
