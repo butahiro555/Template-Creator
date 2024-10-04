@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 
-
 class ForgotPasswordUsersController extends Controller
 {
     protected $validationsController;
@@ -33,28 +32,39 @@ class ForgotPasswordUsersController extends Controller
     {
         // バリデーションの呼び出し
         $validatedData = $this->validationsController->validateEmail($request);
-
-        $checkRegisteredUsers = User::where('email', $request->email)->first();
+    
+        $email = $request->email;
+    
+        // 再送信回数をセッションから取得
+        $resendCount = session()->get("resend_count_{$email}", 0);
+    
+        // 3回以上の場合はエラーメッセージを返す
+        if ($resendCount >= 3) {
+            return redirect()->back()->withErrors(['email' => trans('error_message.resend_limit')]);
+        }
         
-        // 登録済みユーザーかをチェック
+        // 登録済みユーザーであるかを検索
+        $checkRegisteredUsers = User::where('email', $email)->first();
+        
+        // 登録済みでなければ、エラーメッセージを返す
         if (!$checkRegisteredUsers) {
             return redirect()->back()->withErrors(['email' => trans('error_message.user_not_found')]);
         }
-
+    
         // メールアドレス宛に認証コードとトークンを発行
-        $forgotPasswordUser = ForgotPasswordUser::createOrUpdateForgotPasswordUser($request->email);
+        $forgotPasswordUser = ForgotPasswordUser::createOrUpdateForgotPasswordUser($email);
         $verificationCode = $forgotPasswordUser->verification_code;
         $token = $forgotPasswordUser->token;
         $verificationUrl = route('forgot-password.resetform', ['token' => $token]);
-
-        // セッションに認証コードと、トークンを保存
-        session(['verification_code' => $verificationCode, 'email' => $request->email, 'token' => $token]);
-
+    
         // メール送信
-        Mail::to($request->email)->send(new PasswordResetMail($verificationUrl, $verificationCode));
-
+        Mail::to($email)->send(new PasswordResetMail($verificationUrl, $verificationCode));
+    
+        // セッションに再送信回数を保存
+        session()->put("resend_count_{$email}", $resendCount + 1);
+    
         // メール確認を促すビューファイル
-        return view('auth.verify-email');
+        return redirect()->route('verify-your-email');
     }
 
     // パスワードリセットフォーム
@@ -69,7 +79,7 @@ class ForgotPasswordUsersController extends Controller
                                 ->first();
 
         if (!$forgotPasswordUser) {
-            return redirect()->route('auth.forgot-password')->withErrors(['expired' => trans('error_message.token_expired')]);
+            return redirect()->route('login')->withErrors(['expired' => trans('error_message.token_expired')]);
         }
 
         // トークンが有効な場合の処理をここに追加
