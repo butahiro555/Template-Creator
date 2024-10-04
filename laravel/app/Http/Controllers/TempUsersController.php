@@ -44,7 +44,7 @@ class TempUsersController extends Controller
         }
     }
 
-// メール認証送信
+    // メール認証送信
     public function send(Request $request)
     {
         // ValidationsController の validateEmail メソッドを呼び出して、メールアドレスのバリデーションを実行
@@ -82,7 +82,7 @@ class TempUsersController extends Controller
         }
 
         // 再送信回数をチェック
-        if ($tempUser->resend_count < 5) {
+        if ($tempUser->resend_count < 3) {
             // 再送信回数を増やす
             $tempUser->resend_count += 1;
             $tempUser->save();
@@ -109,6 +109,6 @@ class TempUsersController extends Controller
         Mail::to($request->email)->send(new VerificationEmail($verificationUrl, $verificationCode));
 
         // メール確認を促すビューファイル
-        return view('auth.verify-email');
+        return redirect()->route('verify-your-email');
     }
 }
