@@ -9,6 +9,7 @@ use App\Mail\PasswordResetCompleted;
 use App\Http\Controllers\ValidationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -85,37 +86,48 @@ class ForgotPasswordUsersController extends Controller
         // トークンが有効な場合の処理をここに追加
         return view('auth.reset-password', ['email' => $forgotPasswordUser->email]);
     }
-
+    
     // パスワードリセット
     public function passwordReset(Request $request)
     {
         $this->validationsController->validateAuthInputs($request);
-    
+        
+        $email = strtolower($request->email);
+        $user = null;
+
         try {
-            // トークンと認証コードを検証
-            $forgotPasswordUser = ForgotPasswordUser::where('email', $request->email)
-                ->where('verification_code', $request->verification_code)
-                ->where('verification_code_expires_at', '>', Carbon::now())
-                ->firstOrFail();
+            // トランザクションの開始
+            DB::transaction(function () use (&$user, $email, $request) {
+                // パスワードを忘れたユーザーをチェック
+                $forgotPasswordUser = ForgotPasswordUser::where('email', $email)
+                    ->where('verification_code', $request->verification_code)
+                    ->where('verification_code_expires_at', '>', Carbon::now())
+                    ->firstOrFail();
 
-        } catch (ModelNotFoundException $e) {
+                // ユーザー情報を更新
+                $user = User::where('email', $email)->firstOrFail();
+                $user->password = bcrypt($request->password);
+                $user->save();
 
-            // 認証コードが一致しない、またはトークンが無効な場合
-            return redirect()->back()->withErrors(['verification' => trans('error_message.verification_invalid')]);
+                // ForgotPasswordUserデータの削除
+                $forgotPasswordUser->delete();
+            });
+
+            // パスワード変更完了メールを送信
+            Mail::to($user->email)->send(new PasswordResetCompleted());
+
+            // セッション情報にカウントされていた送信回数をリセット
+            session()->forget("resend_count_{$email}");
+
+            // 処理成功時のリダイレクト
+            return redirect()->route('login')->with(['status' => trans('success_message.password_reset_successful')]);
+
+        } catch (\Exception $e) {
+            // エラーログを残してデバッグのために利用
+            Log::error('Password update error:', ['error' => $e->getMessage()]);
+
+            // ユーザーにカスタムメッセージを返す
+            return redirect()->back()->withErrors(['error' => trans('error_message.password_reset_fail')]);
         }
-    
-        // 本登録ユーザーのパスワードを更新　
-        $user = User::where('email', $request->email)->firstOrFail();
-        $user->password = bcrypt($request->password);
-        $user->save();
-    
-        // 仮ユーザーのデータを削除
-        $forgotPasswordUser->delete();
-    
-        // 本登録完了メールを送信
-        Mail::to($user->email)->send(new PasswordResetCompleted());
-    
-        // ログイン画面にリダイレクト
-        return redirect()->route('login')->with(['status' => trans('success_message.password_reset_successful')]);
     }
 }
