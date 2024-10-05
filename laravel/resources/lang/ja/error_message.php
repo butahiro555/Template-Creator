@@ -25,6 +25,7 @@ return [
     // P
     'password_not_change' => 'パスワードが変更されていません。',
     'password_is_wrong' => 'パスワードが正しくありません。',
+    'password_reset_fail' => 'パスワードのリセットに失敗しました。再度お試しください。',
 
     // R
     'required' => '入力欄が空のままです。文字を入力してください。',
@@ -32,7 +33,7 @@ return [
 
     // T
     'template_not_found' => 'テンプレートが見つかりません。',
-    'token_expired' => 'トークンの有効期限が切れています。',
+    'token_expired' => '認証URLの有効期限切れです。再度手続きをお願いいたします。',
 
     // U
     'unauthorezed_access' => 'アクセスが許可されていません。',
