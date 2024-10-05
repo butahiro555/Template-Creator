@@ -44,50 +44,57 @@ class UsersController extends Controller
         return view('auth.register', ['email' => $tempUser->email]);
     }
 
+    // ユーザー本登録処理
     public function register(Request $request)
     {
         $this->validationsController->validateRegisterForm($request);
-
-        // メールアドレスをリクエストから取得
-        $email = $request->input('email');
-        
-        // 仮ユーザーをメールアドレスで取得
-        $tempUser = TempUser::where('email', $email)->first();
-        
-        // 仮ユーザーが存在しない場合の処理
-        if (!$tempUser) {
-            return redirect()->back()->withErrors(['email' => trans('error_message.user_not_found')]);
-        }
-
-        // 認証コードを確認
-        if (is_null($tempUser->verification_code) || $tempUser->verification_code !== $request->verification_code) {
-            return redirect()->back()->withErrors(['verification' => trans('error_message.verification_code_incorrect')]);
-        }
-
-        // 認証コードの有効期限を確認
-        if (is_null($tempUser->verification_code_expires_at) || $tempUser->verification_code_expires_at <= now()) {
-            return redirect()->back()->withErrors(['verification' => trans('error_message.verification_code_expired')]);
-        }
-        
-        // 本登録ユーザーを作成
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $tempUser->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        // 仮ユーザーのデータを削除
-        $tempUser->delete();
-
-        // 本登録完了メールを送信
-        Mail::to($tempUser->email)->send(new RegistrationCompleted());
-
-        // ログイン画面にリダイレクト
-        Log::info('Redirecting to login with success status.');
-            
-        // セッションの内容をログに出力
-        Log::info('Session Data After Success:', ['session' => $request->session()->all()]);
     
-    return redirect()->route('login')->with(['status' => trans('success_message.registered_successful')]);
-    } 
+        $email = $request->email;
+    
+        try {
+            // トランザクション開始
+            DB::transaction(function () use ($email, $request) {
+                // 仮ユーザーをメールアドレスで取得
+                $tempUser = TempUser::where('email', $email)->first();
+                
+                // 仮ユーザーが存在しない場合の処理
+                if (!$tempUser) {
+                    throw new \Exception(trans('error_message.user_not_found'));
+                }
+    
+                // 認証コードを確認
+                if (is_null($tempUser->verification_code) || $tempUser->verification_code !== $request->verification_code) {
+                    throw new \Exception(trans('error_message.verification_code_incorrect'));
+                }
+    
+                // 認証コードの有効期限を確認
+                if (is_null($tempUser->verification_code_expires_at) || $tempUser->verification_code_expires_at <= now()) {
+                    throw new \Exception(trans('error_message.verification_code_expired'));
+                }
+    
+                // 本登録ユーザーを作成
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $tempUser->email,
+                    'password' => Hash::make($request->password),
+                ]);
+    
+                // 仮ユーザーのデータを削除
+                $tempUser->delete();
+            });
+    
+            // トランザクション終了後、メール送信を実行
+            Mail::to($email)->send(new RegistrationCompleted());
+    
+            // ログイン画面にリダイレクト
+            return redirect()->route('login')->with(['status' => trans('success_message.registered_successful')]);
+    
+        } catch (\Exception $e) {
+            // エラーログを残してデバッグのために利用
+            Log::error('User registration error:', ['error' => $e->getMessage()]);
+        
+            // ユーザーにカスタムメッセージを返す
+            return redirect()->back()->withErrors(['error' => trans('error_message.unexpected_error')]);
+        }
+    }
 }
