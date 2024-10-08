@@ -16,6 +16,9 @@ RUN apt-get update && \
     && docker-php-ext-install pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
 
+# Redis extension のインストール
+RUN pecl install redis && docker-php-ext-enable redis
+
 # Composerのインストール
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
