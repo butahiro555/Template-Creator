@@ -16,7 +16,7 @@
                     <x-primary-button class="btn btn-info" style="width: auto;">
                         {{ __('認証コード発行') }}
                     </x-primary-button>
-                    <x-primary-button type="button" class="btn btn-secondary ml-2" onclick="history.back();">
+                    <x-primary-button type="button" class="btn btn-secondary ml-2" onclick="window.location.href='{{ route('login') }}'">
                         {{ __('戻る') }}
                     </x-primary-button>
                 </div>
