@@ -6,12 +6,15 @@ use App\Models\User;
 use App\Models\ForgotPasswordUser;
 use App\Mail\PasswordResetMail;
 use App\Mail\PasswordResetCompleted;
+use App\Services\TokenService;
 use App\Http\Controllers\ValidationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 
@@ -29,43 +32,68 @@ class ForgotPasswordUsersController extends Controller
         return view('auth.forgot-password');
     }
 
+    // パスワードを忘れたユーザー向けのメール認証処理
     public function sendResetForUser(Request $request)
     {
-        // バリデーションの呼び出し
-        $validatedData = $this->validationsController->validateEmail($request);
-    
-        $email = $request->email;
-    
-        // 再送信回数をセッションから取得
-        $resendCount = session()->get("resend_count_{$email}", 0);
-    
-        // 3回以上の場合はエラーメッセージを返す
-        if ($resendCount >= 3) {
-            return redirect()->back()->withErrors(['email' => trans('error_message.resend_limit')]);
-        }
-        
-        // 登録済みユーザーであるかを検索
-        $checkRegisteredUsers = User::where('email', $email)->first();
-        
+        // メールアドレスのバリデーション
+        $this->validationsController->validateEmail($request);
+        $email = strtolower($request->email);
+
+        // 登録済みユーザーを検索
+        $registeredUser = User::where('email', $email)->first();
+
         // 登録済みでなければ、エラーメッセージを返す
-        if (!$checkRegisteredUsers) {
+        if (!$registeredUser) {
             return redirect()->back()->withErrors(['email' => trans('error_message.user_not_found')]);
         }
-    
-        // メールアドレス宛に認証コードとトークンを発行
-        $forgotPasswordUser = ForgotPasswordUser::createOrUpdateForgotPasswordUser($email);
-        $verificationCode = $forgotPasswordUser->verification_code;
-        $token = $forgotPasswordUser->token;
-        $verificationUrl = route('forgot-password.resetform', ['token' => $token]);
-    
-        // メール送信
-        Mail::to($email)->send(new PasswordResetMail($verificationUrl, $verificationCode));
-    
-        // セッションに再送信回数を保存
-        session()->put("resend_count_{$email}", $resendCount + 1);
-    
-        // メール確認を促すビューファイル
-        return redirect()->route('verify-your-email');
+
+        // パスワードを忘れたユーザーを検索
+        $forgotPasswordUser = ForgotPasswordUser::where('email', $email)->first();
+
+        // パスワードを忘れたユーザーが存在しない場合、新規作成
+        if (!$forgotPasswordUser) {
+            $forgotPasswordUser = ForgotPasswordUser::createOrUpdateForgotPasswordUser($email);
+            $verificationCode = $forgotPasswordUser->verification_code;
+            $token = $forgotPasswordUser->token;
+            $verificationUrl = route('forgot-password.resetform', ['token' => $token]);
+            $forgotPasswordUser->save();
+
+            // メール送信
+            try {
+                Mail::to($email)->queue(new PasswordResetMail($verificationUrl, $verificationCode));
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['email' => trans('error_message.unexpected_error')]);
+            }
+
+            // メール確認を促すビューファイル
+            return redirect()->route('verify-your-email');
+        }
+
+        // パスワードを忘れたユーザーが存在する場合（再送信処理）
+        if ($forgotPasswordUser->resend_count < 3) {
+            // 再送信回数を更新
+            $forgotPasswordUser->resend_count += 1;
+            $forgotPasswordUser->save();
+
+            // メール再送信
+            $forgotPasswordUser = ForgotPasswordUser::createOrUpdateForgotPasswordUser($email);
+            $verificationCode = $forgotPasswordUser->verification_code;
+            $token = $forgotPasswordUser->token;
+            $verificationUrl = route('forgot-password.resetform', ['token' => $token]);
+            $forgotPasswordUser->save();
+
+            try {
+                Mail::to($email)->queue(new PasswordResetMail($verificationUrl, $verificationCode));
+            } catch (\Exception $e) {
+                return redirect()->back()->withErrors(['email' => trans('error_message.unexpected_error')]);
+            }
+
+            // メール確認を促すビューファイル
+            return redirect()->route('verify-your-email');
+        }
+
+        // 再送信回数が上限に達している場合
+        return redirect()->back()->withErrors(['email' => trans('error_message.resend_limit')]);
     }
 
     // パスワードリセットフォーム
@@ -114,10 +142,7 @@ class ForgotPasswordUsersController extends Controller
             });
 
             // パスワード変更完了メールを送信
-            Mail::to($user->email)->send(new PasswordResetCompleted());
-
-            // セッション情報にカウントされていた送信回数をリセット
-            session()->forget("resend_count_{$email}");
+            Mail::to($user->email)->queue(new PasswordResetCompleted());
 
             // 処理成功時のリダイレクト
             return redirect()->route('login')->with(['status' => trans('success_message.password_reset_successful')]);
