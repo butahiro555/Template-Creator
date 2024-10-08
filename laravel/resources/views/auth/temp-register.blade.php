@@ -6,18 +6,18 @@
             <div class="text-center">
                 <h2>仮ユーザー登録画面</h2>
             </div>
-            <form id="formClear" action="{{ route('temp-user.handle') }}" method="POST">
+            <form id="formClear" action="{{ route('temp-user.send') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <x-input-label for="email" :value="__('メールアドレス')" />
                     <x-text-input id="email" class="form-control" type="email" name="email" required />
                 </div>               
                 <div class="text-right">
-                    <x-primary-button class="btn btn-success" name="action" value="send_verification">
+                    <x-primary-button class="btn btn-success" value="send_verification">
                         {{ __('認証コード発行') }}
                     </x-primary-button>
-                    <x-primary-button class="btn btn-info" name="action" value="resend_verification">
-                        {{ __('認証コード再発行') }}
+                    <x-primary-button type="button" class="btn btn-secondary ml-2" onclick="window.location.href='{{ route('templates.index') }}'">
+                        {{ __('キャンセル') }}
                     </x-primary-button>
                 </div>
             </form>
