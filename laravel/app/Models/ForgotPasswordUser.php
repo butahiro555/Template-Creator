@@ -20,6 +20,7 @@ class ForgotPasswordUser extends Model
         'verification_code_expires_at',
         'token',
         'token_expires_at',
+        'expires_at',
     ];
 
     // TokenServiceクラスを利用
@@ -32,7 +33,8 @@ class ForgotPasswordUser extends Model
                 'verification_code_expires_at' => TokenService::calculateExpiry(),
                 'token' => TokenService::generateToken(),
                 'token_expires_at' => TokenService::calculateExpiry(),
-                'expires_at' => TokenService::calculateExpiry(60), // 仮ユーザーの有効期限のみ60分に設定
+                'expires_at' => TokenService::calculateExpiry(60),
+                'resend_count', // 再送信カウント
             ]
         );
     }
