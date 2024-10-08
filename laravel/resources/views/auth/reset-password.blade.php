@@ -28,7 +28,7 @@
                     <x-primary-button class="btn btn-info" style="width: auto;">
                         {{ __('パスワードリセット') }}
                     </x-primary-button>
-		            <x-primary-button type="button" class="btn btn-secondary w-25:" onclick="window.location.href='{{ route('templates.index') }}'">
+		            <x-primary-button type="button" class="btn btn-secondary w-25: ml-2" onclick="window.location.href='{{ route('templates.index') }}'">
                         {{ __('キャンセル') }}
                     </x-primary-button>
                 </div>
