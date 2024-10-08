@@ -24,7 +24,7 @@
                         <x-primary-button class="btn btn-success flex-grow-1">
                             {{ __('ログイン') }}
                         </x-primary-button>
-                        <x-primary-button type="button" class="btn btn-secondary w-50" onclick="window.location.href='{{ route('templates.index') }}'">
+                        <x-primary-button type="button" class="btn btn-secondary w-50 ml-2" onclick="window.location.href='{{ route('templates.index') }}'">
                             {{ __('キャンセル') }}
                         </x-primary-button>
                     </div>
