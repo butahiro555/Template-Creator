@@ -36,7 +36,7 @@
                         <x-primary-button class="btn-primary flex-grow-1">
                             {{ __('登録') }}
                         </x-primary-button>
-                        <x-primary-button type="button" class="btn-secondary w-50" onclick="window.location.href='{{ route('templates.index') }}'">
+                        <x-primary-button type="button" class="btn-secondary w-50 ml-2" onclick="window.location.href='{{ route('templates.index') }}'">
                             {{ __('キャンセル') }}
                         </x-primary-button>
                     </div>
