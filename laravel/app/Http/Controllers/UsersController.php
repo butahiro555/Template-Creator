@@ -8,9 +8,11 @@ use App\Mail\RegistrationCompleted;
 use App\Http\Controllers\ValidationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log; // ログ出力用のファサードをインポート
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Carbon\Carbon;
 
 class UsersController extends Controller
@@ -84,7 +86,7 @@ class UsersController extends Controller
             });
     
             // トランザクション終了後、メール送信を実行
-            Mail::to($email)->send(new RegistrationCompleted());
+            Mail::to($email)->queue(new RegistrationCompleted());
     
             // ログイン画面にリダイレクト
             return redirect()->route('login')->with(['status' => trans('success_message.registered_successful')]);
