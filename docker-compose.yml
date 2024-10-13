@@ -19,7 +19,6 @@ services:
       dockerfile: ./docker/php/Dockerfile
     depends_on:
       - db
-      - mailpit  # mailpitサービスに依存
     volumes:
       - ./laravel:/var/www/html
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
@@ -51,13 +50,6 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-
-  mailpit:
-    image: axllent/mailpit  # Mailpitの公式イメージ
-    container_name: mailpit
-    ports:
-      - "1025:1025"  # SMTPポート
-      - "8025:8025"  # Webインターフェイスポート
 
 networks:
   default:
