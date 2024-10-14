@@ -1,14 +1,22 @@
-# 環境変数等を管理しているファイル
+/.phpunit.cache
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
 .env
-
-# 変更頻度が多いため、ignore推奨のフォルダ
-docker/mysql/data/
-docker/nginx/logs/
-
-# MySQL設定ファイル
-docker/mysql/my.cnf
-
-# SSL証明書関連ファイル
-# docker/mysql/cacert.pem
-# docker/mysql/server-cert.pem
-# docker/mysql/server-key.pem
+.env.backup
+.env.production
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+/docker/mysql/data
+/docker/mysql/my.cnf
+/docker/nginx/logs
