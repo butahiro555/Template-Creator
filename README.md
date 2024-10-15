@@ -11,7 +11,6 @@
 11. chown -R www-data:www-data /var/www/html/storage
 12. composer install
 13. $ php artisan storage:link
-14. mv .env.example .env
-15. php artisan key:generate
-16. Link the parameters mysql_parameter in docker_project/.env and DB_parameter in laravel/.env.
-17. $ php artisan migrate
+14. php artisan key:generate
+15. Link the parameters mysql_parameter in docker_project/.env and DB_parameter in laravel/.env.
+16. $ php artisan migrate
