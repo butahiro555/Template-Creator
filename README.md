@@ -1,6 +1,8 @@
-<h1>Template&nbsp;Creator</h1>
+<h1>Template&nbsp;Creator / 定型文管理サービス</h1>
 
-<a href="https://gyazo.com/68b0398f3b4ff2851b50b6b283326d3f"><img src="https://i.https://gyazo.com/68b0398f3b4ff2851b50b6b283326d3f.png" alt="Image from Gyazo"></a>
+<a href="https://gyazo.com/68b0398f3b4ff2851b50b6b283326d3f">
+  <img src="https://i.gyazo.com/68b0398f3b4ff2851b50b6b283326d3f.png" alt="Image from Gyazo">
+</a>
 
 これは定型文を作成、編集するためのアプリケーションです。
 <br>
@@ -38,6 +40,7 @@ https://github.com/butahiro555/project_on_docker
 
 <h3>環境ごとの設定</h3>
 開発環境
+<br>
 - データベース: MySQLコンテナ
 <br>
 - メールサービス: Mailpitコンテナ (ローカルテスト用)
@@ -48,6 +51,7 @@ https://github.com/butahiro555/project_on_docker
 <br>
 <br>
 本番環境
+<br>
 - データベース: PostgreSQL (Heroku)
 <br>
 - メールサービス: Mailjet
@@ -55,6 +59,13 @@ https://github.com/butahiro555/project_on_docker
 - APIキー: 環境変数から取得
 <br>
 - キャッシュ: Redis
+<br>
+<br>
+※本アプリケーションは、以前AWS Cloud9にて作成したアプリケーションをローカルにてDocker環境を用いて改修を行い、Github、およびHerokuにアップロードし直しております。
+<br>
+以前作成したときのアプリケーションのコードは、以下のmasterブランチをご覧ください。
+<br>
+https://github.com/butahiro555/Template-Creator/tree/master
 
 <h3>実装機能一覧</h3>
 セッション、トークン、メール認証を利用した、ユーザー登録機能
@@ -67,7 +78,7 @@ https://github.com/butahiro555/project_on_docker
 <br>
 ユーザー名、パスワード変更機能
 <br>
-退会機能
+ユーザー退会機能
 <br>
 定型文の作成 / コピー / 更新 / 削除機能
 <br>
