@@ -1,4 +1,7 @@
 <h1>Template&nbsp;Creator</h1>
+
+<a href="https://gyazo.com/68b0398f3b4ff2851b50b6b283326d3f"><img src="https://i.https://gyazo.com/68b0398f3b4ff2851b50b6b283326d3f.png" alt="Image from Gyazo"></a>
+
 これは定型文を作成、編集するためのアプリケーションです。
 <br>
 このアプリケーションを使うことで、とても簡単に定型文を管理することが出来ます。
@@ -14,7 +17,7 @@
 https://template-creator-0b1fb002af8e.herokuapp.com
 
 <h3>メイン機能の使い方</h3>
-<a href="https://gyazo.com/b9be552471658a84ada8bc3d3280083b"><img src="https://i.；gyazo.com/b9be552471658a84ada8bc3d3280083b.gif" alt="Image from Gyazo" width="968"/></a>
+
 
 <h3>使用技術一覧</h3>
 - 使用言語: PHP 8.3
