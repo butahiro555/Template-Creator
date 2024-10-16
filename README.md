@@ -11,7 +11,7 @@
 また、タスクリストのようなアプリケーションとは違い、文章構成が分かりやすいUIや、少ないページ遷移の仕様にすることで、初めて使うユーザーでも使いやすいようなサービスになっています。
 
 <h3>サービスのURL</h3>
-<a href="https://template-creator-0b1fb002af8e.herokuapp.com/">サービスURL</a>
+https://template-creator-0b1fb002af8e.herokuapp.com
 
 <h3>メイン機能の使い方</h3>
 <a href="https://gyazo.com/b9be552471658a84ada8bc3d3280083b"><img src="https://i.；gyazo.com/b9be552471658a84ada8bc3d3280083b.gif" alt="Image from Gyazo" width="968"/></a>
@@ -27,9 +27,11 @@
 <br>
 - 環境構築ツール: Docker, Docker Compose
 <br>
-- 本プロジェクトのコンテナ構成は、php:8.3-fpm、nginx、mysql、Redisを使用しています。詳細は以下のリポジトリにて確認可能です。
+- 本プロジェクトのコンテナ構成は、php:8.3-fpm、nginx、mysql、Redisを使用しています。
 <br>
-<a href="https://github.com/butahiro555/project_on_docker">プロジェクトリポジトリ</a>
+詳細は以下のリポジトリにて確認可能です。
+<br>
+https://github.com/butahiro555/project_on_docker
 
 <h3>環境ごとの設定</h3>
 開発環境
