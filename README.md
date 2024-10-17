@@ -22,15 +22,15 @@ https://template-creator-0b1fb002af8e.herokuapp.com
 
 
 <h3>使用技術一覧</h3>
-- 使用言語: PHP 8.3
+- 使用言語：PHP 8.3
 <br>
-- フレームワーク: Laravel 10
+- フレームワーク：Laravel 10
 <br>
-- CSSフレームワーク: Tailwind CSS
+- CSSフレームワーク：Tailwind CSS
 <br>
-- 主要パッケージ: Axios, Font Awesome
+- 主要パッケージ：Axios, Font Awesome
 <br>
-- 環境構築ツール: Docker, Docker Compose
+- 環境構築ツール：Docker, Docker Compose
 <br>
 - 本プロジェクトのコンテナ構成は、php:8.3-fpm、nginx、mysql、Redisを使用しています。
 <br>
@@ -38,30 +38,40 @@ https://template-creator-0b1fb002af8e.herokuapp.com
 <br>
 https://github.com/butahiro555/project_on_docker
 
+<h3>アーキテクチャの概要</h3>
+<br>
+- トランザクション処理：ユーザー登録機能、およびパスワードを忘れたユーザー向けのパスワード再設定機能において、データベースの整合性を保つために、トランザクションを利用しています。
+<br>
+- 非同期処理：認証メール送信の際に、Redisを用いて非同期処理を導入し、ユーザー体験を損なわないよう設計しました。
+<br>
+- メール送信制限：不正行為の防止、およびリソースの保護のために、仮ユーザー登録、およびパスワード再設定時に同一メールアドレスに対して3回までの再送信制限回数を設けました。
+<br>
+- ログ収集機能：トラブルシューティング、およびセキュリティ監視のために、ユーザー登録時、パスワード再設定時にログを収集するように実装しました。
+
 <h3>環境ごとの設定</h3>
 開発環境
 <br>
-- データベース: MySQLコンテナ
+- データベース：MySQLコンテナ
 <br>
-- メールサービス: Mailpitコンテナ (ローカルテスト用)
+- メールサービス：Mailpitコンテナ (ローカルテスト用)
 <br>
-- APIキー: テスト用のキーを.envにて管理
+- APIキー：テスト用のキーを.envにて管理
 <br>
-- キャッシュ: Redisコンテナ
+- キャッシュ：Redisコンテナ
 <br>
 <br>
 本番環境
 <br>
-- データベース: PostgreSQL (Heroku)
+- データベース：PostgreSQL (Heroku)
 <br>
-- メールサービス: Mailjet
+- メールサービス：Mailjet
 <br>
-- APIキー: 環境変数から取得
+- APIキー：環境変数から取得
 <br>
-- キャッシュ: Redis
+- キャッシュ：Redis
 <br>
 <br>
-※本アプリケーションは、以前AWS Cloud9にて作成したアプリケーションをローカルにてDocker環境を用いて改修を行い、Github、およびHerokuにアップロードし直しております。
+※本アプリケーションは、以前AWS Cloud9にて作成したアプリケーションをローカルにてDocker環境を用いて改修を行い、Github、およびHerokuにアップロードし直しています。
 <br>
 以前作成したときのアプリケーションのコードは、以下のmasterブランチをご覧ください。
 <br>
