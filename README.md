@@ -16,7 +16,7 @@
 また、タスクリストのようなアプリケーションとは違い、文章構成が分かりやすいUIや、少ないページ遷移の仕様にすることで、初めて使うユーザーでも使いやすいようなサービスになっています。
 
 <h3>サービスのURL</h3>
-https://template-creator-0b1fb002af8e.herokuapp.com
+https://www.template-creator.net
 
 <h3>メイン機能の使い方</h3>
 <a href="https://gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830"><img src="https://i.gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830.gif" alt="Image from Gyazo"></a>
@@ -54,6 +54,7 @@ https://github.com/butahiro555/project_on_docker
 - メールサービス：Mailpitコンテナ (ローカルテスト用)
 <br>
 - APIキー：テスト用のキーを.envにて管理
+<br>
 <br>
 本番環境
 <br>
