@@ -130,17 +130,17 @@ return [
 
         'default' => [
             'url' => env('UPSTASH_REDIS_URL'),
-            'host' => parse_url(env('UPSTASH_REDIS_URL'), PHP_URL_HOST),
+            'host' => env('UPSTASH_REDIS_HOST', '127.0.0.1'),
             'password' => env('UPSTASH_REDIS_REST_TOKEN'),
-            'port' => parse_url(env('UPSTASH_REDIS_URL'), PHP_URL_PORT),
+            'port' => env('UPSTASH_REDIS_PORT'),
             'database' => env('REDIS_DB', '0'),
         ],
 
         'cache' => [
             'url' => env('UPSTASH_REDIS_URL'),
-            'host' => parse_url(env('UPSTASH_REDIS_URL'), PHP_URL_HOST),
+            'host' => env('UPSTASH_REDIS_HOST', '127.0.0.1'),
             'password' => env('UPSTASH_REDIS_REST_TOKEN'),
-            'port' => parse_url(env('UPSTASH_REDIS_URL'), PHP_URL_PORT),
+            'port' => env('UPSTASH_REDIS_PORT'),
             'database' => env('REDIS_CACHE_DB', '1'),
         ],
 
