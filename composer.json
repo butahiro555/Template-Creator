@@ -6,12 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "phpredis/phpredis": "^6.0",
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "phpredis/phpredis": "^6.0",
+        "predis/predis": "^2.2",
         "symfony/http-client": "^7.1",
         "symfony/mailgun-mailer": "^7.1"
     },

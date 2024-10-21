@@ -31,7 +31,7 @@ return [
     'connections' => [
 
         'sync' => [
-            'driver' => 'sync',
+            'driver' => 'redis',
         ],
 
         'database' => [
@@ -66,9 +66,9 @@ return [
             'driver' => 'redis',
             'connection' => 'default',
             'queue' => env('REDIS_QUEUE', 'default'),
-            'retry_after' => 90,
+            'retry_after' => 10,
             'block_for' => null,
-            'after_commit' => false,
+            'after_commit' => true, // トランザクション処理が成功した場合にのみ、メール送信を実行
         ],
 
     ],
