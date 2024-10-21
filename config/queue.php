@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'sync'),
+    'default' => env('QUEUE_CONNECTION', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,16 +30,16 @@ return [
 
     'connections' => [
 
-        'sync' => [
-            'driver' => 'sync',
+        'database' => [
+            'driver' => 'database',
         ],
 
         'database' => [
             'driver' => 'database',
             'table' => 'jobs',
             'queue' => 'default',
-            'retry_after' => 90,
-            'after_commit' => false,
+            'retry_after' => 10,
+            'after_commit' => true, // トランザクション処理が成功した場合にのみ、メール送信を実行
         ],
 
         'beanstalkd' => [
@@ -66,9 +66,9 @@ return [
             'driver' => 'redis',
             'connection' => 'default',
             'queue' => env('REDIS_QUEUE', 'default'),
-            'retry_after' => 10,
+            'retry_after' => 90,
             'block_for' => null,
-            'after_commit' => true, // トランザクション処理が成功した場合にのみ、メール送信を実行
+            'after_commit' => false,
         ],
 
     ],
