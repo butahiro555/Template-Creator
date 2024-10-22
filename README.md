@@ -44,7 +44,8 @@ https://www.template-creator.net
 <br>
 - セキュリティ：HTTPS (本番環境)、CSRF対策、XSS対策
 <br>
-- 本プロジェクトのコンテナ構成は、php:8.3-fpm、nginx、mysql、Redisを使用しています。
+<br>
+本プロジェクトのコンテナ構成は、php:8.3-fpm、nginx、mysql、Redisを使用しています。
 <br>
 詳細は以下のリポジトリにて確認可能です。
 <br>
