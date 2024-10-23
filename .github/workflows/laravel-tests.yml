@@ -35,7 +35,7 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    - name: Copy .env example
+    - name: Copy .env.example
       run: cp .env.example .env
 
     - name: Set up .env
@@ -47,17 +47,14 @@ jobs:
         echo "DB_USERNAME=${{ secrets.MYSQL_USER }}" >> .env
         echo "DB_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
 
+    # Debugging step to display the .env file content
+    - name: Display .env content
+      run: cat .env
+
     - name: Generate application key
       run: php artisan key:generate
 
     - name: Run migrations
-      env:
-        DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
-        DB_PORT: 3306
-        DB_DATABASE: ${{ secrets.DB_DATABASE }}
-        DB_USERNAME: ${{ secrets.MYSQL_USER }}
-        DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       run: php artisan migrate --force
 
     - name: Run tests
