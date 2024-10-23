@@ -40,12 +40,16 @@ jobs:
 
     - name: Set up .env
       run: |
+        echo "APP_NAME=Template_app" >> .env
+        echo "APP_ENV=local" >> .env
+        echo "APP_KEY=" >> .env
+        echo "APP_DEBUG=true" >> .env
         echo "DB_CONNECTION=mysql" >> .env
         echo "DB_HOST=127.0.0.1" >> .env
         echo "DB_PORT=3306" >> .env
         echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
         echo "DB_USERNAME=${{ secrets.MYSQL_USER }}" >> .env
-        echo "DB_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env
+        echo "DB_PASSWORD=${{ secrets.MYSQL_PASSWORD }}" >> .env    
 
     # Debugging step to display the .env file content
     - name: Display .env content
