@@ -5,7 +5,7 @@
     @if(isset($templates) && count($templates) > 0)
         <h5 class="text-center text-danger">テンプレート一覧</h5>
         
-        <table class="search table-responsive">
+        <table class="search table-responsive mt-4">
             <tr>
                 <form action="{{ route('search') }}" method="GET" class="form-inline">
                     <td>
@@ -51,7 +51,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <textarea id="copyTarget{{ $template->id }}" name="content" rows="13" class="form-control" placeholder="Type your text.">{{ $template->content }}</textarea>
+                        <textarea id="copyTarget{{ $template->id }}" name="content" rows="13" class="form-control" placeholder="更新、またはコピーしたい文章を入力してください。">{{ $template->content }}</textarea>
                     </div>
                         
                     <!-- ボタンを右揃えにするためのflex box -->        
