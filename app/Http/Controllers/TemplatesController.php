@@ -96,7 +96,7 @@ class TemplatesController extends Controller
         // 検索条件にマッチするテンプレートを取得
         $template = Template::where('title', 'like', '%' . $keyword . '%')
             ->orderBy($sortColumn, $sortDirection)
-            ->paginate(10);
+            ->paginate(5);
     
         // 検索結果が見つからなかった場合のエラーハンドリング
         if (count($template) === 0) {
