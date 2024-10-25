@@ -4,16 +4,16 @@
 @section('content')
     @if(isset($templates) && count($templates) > 0)
         <h5 class="text-center text-danger">テンプレート一覧</h5>
-        <div class="d-flex justify-content-end m-3">
+        <div class="d-flex justify-content-end mt-3 mr-3 ml-3 mb-2">
             <form action="{{ route('search') }}" method="GET" class="d-flex">
-                <input type="text" name="keyword" class="form-control mr-2" placeholder="タイトルを検索" required>
+                <input type="text" name="keyword" class="form-control" placeholder="タイトルを検索" required>
                 <button type="submit" class="btn btn-success text-white">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
         </div>
 
-        <div class="sort mb-3 mr-3">
+        <div class="sort mb-2 mr-3">
             <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">並び替え</button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                 <li>
