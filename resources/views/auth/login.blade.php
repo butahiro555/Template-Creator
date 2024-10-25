@@ -16,15 +16,15 @@
                     <x-input-label for="password" :value="__('パスワード')" />
                     <x-text-input id="password" class="form-control" type="password" name="password" required autocomplete="current-password" />
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <a href="{{ route('forgot-password.index') }}">
+                <a href="{{ route('forgot-password.index') }}">
                         {{ __('パスワードを忘れた方はこちら') }}
-                    </a>
-                    <div class="d-flex w-50">
-                        <x-primary-button class="btn btn-success flex-grow-1">
+                </a>
+                <div class="d-flex justify-content-end align-items-center mt-4">
+                    <div class="d-flex">
+                        <x-primary-button class="btn btn-success" style="width: 120px;">
                             {{ __('ログイン') }}
                         </x-primary-button>
-                        <x-primary-button type="button" class="btn btn-secondary w-50 ml-2" onclick="window.location.href='{{ route('templates.index') }}'">
+                        <x-primary-button type="button" class="btn btn-secondary ml-2" style="width: 150px;" onclick="window.location.href='{{ route('templates.index') }}'">
                             {{ __('キャンセル') }}
                         </x-primary-button>
                     </div>
