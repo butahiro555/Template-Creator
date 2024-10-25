@@ -5,14 +5,14 @@
     @if(isset($templates) && count($templates) > 0)
         <h5 class="text-center text-danger">テンプレート一覧</h5>
         
-        <table class="search">
+        <table class="search table-responsive">
             <tr>
-                <form action="{{ route('search') }}" method="GET">
+                <form action="{{ route('search') }}" method="GET" class="form-inline">
                     <td>
-                        <input type="text" name="keyword" class="form-control" placeholder="タイトルを検索" required>
+                        <input type="text" name="keyword" class="form-control mb-2 mr-sm-2" placeholder="タイトルを検索" required>
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-success text-white">
+                        <button type="submit" class="btn btn-success text-white mb-2">
                             <i class="fas fa-search"></i>
                         </button>
                     </td>
@@ -20,7 +20,7 @@
             </tr>
         </table>
         
-        <div class="sort">
+        <div class="sort mb-3">
             <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">並び替え</button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                 <li>
@@ -41,45 +41,41 @@
 
         <!-- テンプレートを繰り返し表示する -->
         @foreach ($templates as $template)
-            <div class="container">
-                <!-- 更新のフォームアクション -->
-                <form action="{{ route('templates.update', $template->id) }}" method="POST">
+            <div class="container mb-4">
+                <!-- 更新と削除のフォーム -->
+                <form action="{{ route('templates.update', $template->id) }}" method="POST" class="mb-2">
                     @csrf
                     @method('PUT')
-                    <div class="title">
+                    <div class="form-group">
                         <input type="text" name="title" value="{{ $template->title }}" class="form-control" placeholder="Title">
                     </div>
                     
-                    <div class="textarea">
+                    <div class="form-group">
                         <textarea id="copyTarget{{ $template->id }}" name="content" rows="13" class="form-control" placeholder="Type your text.">{{ $template->content }}</textarea>
                     </div>
                         
-                    <!-- 3つのボタンのためのflex box -->        
-                    <div class="flex_test-box">
-                        <div class="flex_test-item">
-                            <!-- 更新ボタン -->
-                            <button type="submit" class="btn btn-warning text-white update-btn">更新</button>
-                        </div>
-                </form>
+                    <!-- ボタンを右揃えにするためのflex box -->        
+                    <div class="d-flex justify-content-end">
+                        <!-- 削除ボタン -->
+                        <button type="button" class="btn btn-danger delete-btn mr-2" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $template->id }}').submit();">削除</button>
+
+                        <!-- 更新ボタン -->
+                        <button type="submit" class="btn btn-warning text-white update-btn mr-2">更新</button>
                         
-                <!-- 削除のフォーム -->
-                <form action="{{ route('templates.destroy', $template->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <div class="flex_test-item">
-                        <button type="submit" class="btn btn-danger delete-btn">削除</button>
+                        <!-- クリップボードにコピーするボタン -->
+                        <button type="button" onclick="copyToClipboard('copyTarget{{ $template->id }}')" class="btn btn-info">コピー</button>
                     </div>
                 </form>
-                        
-                <!-- クリップボードにコピーするボタン -->
-                <div class="flex_test-item">
-                    <button type="button" onclick="copyToClipboard('copyTarget{{ $template->id }}')" class="btn btn-info">コピー</button>
-                </div>
+
+                <!-- 削除用のフォーム -->
+                <form id="delete-form-{{ $template->id }}" action="{{ route('templates.destroy', $template->id) }}" method="POST" style="display: none;">
+                    @csrf
+                    @method('DELETE')
+                </form>
+
+                <!-- テンプレート間の仕切り -->
+                <div class="dropdown-divider"></div>
             </div>
-                    
-            <!-- テンプレート間の仕切り -->
-            <div class="dropdown-divider"></div>
-        </div>
         @endforeach
                 
         <!-- ページネーション -->
