@@ -13,7 +13,7 @@
                     <x-text-input id="email" class="form-control" type="email" name="email" required />
                 </div>               
                 <div class="d-flex justify-content-end align-items-center mt-4">
-                    <div class="d-flex">
+                    <div class="d-flex pb-4">
                         <x-primary-button class="btn btn-success" style="width: 170px;" value="send_verification">
                             {{ __('認証コード発行') }}
                         </x-primary-button>
