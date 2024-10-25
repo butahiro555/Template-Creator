@@ -20,7 +20,7 @@
             </tr>
         </table>
         
-        <div class="sort mb-3">
+        <div class="sort mb-3 mr-3">
             <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">並び替え</button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                 <li>
