@@ -5,38 +5,26 @@
     @if(isset($templates) && count($templates) > 0)
         <h5 class="text-center text-danger">テンプレート一覧</h5>
         
-        <table class="search table-responsive">
-            <tr>
-                <form action="{{ route('search') }}" method="GET" class="form-inline">
-                    <td>
-                        <input type="text" name="keyword" class="form-control mb-2 mr-sm-2" placeholder="タイトルを検索" required>
-                    </td>
-                    <td>
-                        <button type="submit" class="btn btn-success text-white mb-2">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </td>
-                </form>
-            </tr>
-        </table>
-        
-        <div class="sort mb-3">
-            <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">並び替え</button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'asc']) }}">作成日時 昇順</a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'desc']) }}">作成日時 降順</a>
-                </li>
-                <li class="dropdown-divider"></li>
-                <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'asc']) }}">更新日時 昇順</a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'desc']) }}">更新日時 降順</a>
-                </li>
-            </ul>
+        <div class="d-flex flex-column align-items-end mb-3" style="width: 100%; max-width: 300px;">
+            <!-- 検索フォーム -->
+            <form action="{{ route('search') }}" method="GET" class="form-inline mb-2 w-100">
+                <input type="text" name="keyword" class="form-control mr-2 w-100" placeholder="タイトルを検索" required>
+                <button type="submit" class="btn btn-success text-white">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+
+            <!-- 並び替えボタン -->
+            <div class="sort w-100">
+                <button type="button" class="btn btn-secondary dropdown-toggle w-100" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">並び替え</button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                    <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'asc']) }}">作成日時 昇順</a></li>
+                    <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'created_at', 'direction' => 'desc']) }}">作成日時 降順</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'asc']) }}">更新日時 昇順</a></li>
+                    <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['sort' => 'updated_at', 'direction' => 'desc']) }}">更新日時 降順</a></li>
+                </ul>
+            </div>
         </div>
 
         <!-- テンプレートを繰り返し表示する -->
