@@ -15,15 +15,15 @@
                     <li class="text-center nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li class="dropdown-item">
+                            <li class="text-center dropdown-item">
                                 <a href="{{ route('profile.index') }}">プロフィール</a>
                             </li>
                             <li class="dropdown-divider"></li>
-                            <li class="dropdown-item">
+                            <li class="text-center dropdown-item">
                                 <a href="{{ route('templates.show') }}">テンプレート一覧</a>
                             </li>
                             <li class="dropdown-divider"></li>
-                            <li class="dropdown-item">
+                            <li class="text-center dropdown-item">
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
