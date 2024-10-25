@@ -54,6 +54,8 @@ https://github.com/butahiro555/project_on_docker
 <br>
 - 非同期処理：データベースをバックエンドにしたキューシステムで、迅速なページ遷移とデータ整合性を実現しました。
 <br>
+- データベースジョブ設定：トランザクション処理が成功した場合にのみ、メール送信ジョブが実行されるようにしました。
+<br>
 - メール送信制限：不正防止のため、メール再送信回数を3回に制限しています。
 <br>
 - ログ収集：エラーログを収集し、トラブルシューティングとセキュリティ監視を行います。
@@ -62,13 +64,15 @@ https://github.com/butahiro555/project_on_docker
 <h3>環境ごとの設定</h3>
 開発環境
 <br>
-- データベース：MySQLコンテナ
+- データベース：MySQLコンテナ(Dockerイメージ:mysql:8.0.38)
 <br>
-- Webサーバー：Nginxコンテナ
+- Webサーバー：Nginxコンテナ(Dockerイメージ:nginx:1.27)
 <br>
-- メールサービス：Mailpitコンテナ
+- アプリケーションサーバー：PHPコンテナ(Dockerイメージ:php:8.3-fpm)
 <br>
-- キューシステム：Redisコンテナ
+- メールサービス：Mailpitコンテナ(Dockerイメージ:mailpit)
+<br>
+- キューシステム：Redisコンテナ(Dockerイメージ:redis)
 <br>
 - APIキー：テスト用のキーを.envにて管理
 <br>
@@ -77,7 +81,9 @@ https://github.com/butahiro555/project_on_docker
 <br>
 - データベース：PostgreSQL (Heroku)
 <br>
-- Webサーバー：Appache2 (Heroku)
+- Webサーバー：Apache2 (Heroku)
+<br>
+- アプリケーションサーバー：PHP-FPM 8.3.12 (Heroku)
 <br>
 - メールサービス：Mailjet
 <br>
@@ -93,26 +99,29 @@ https://github.com/butahiro555/project_on_docker
 https://github.com/butahiro555/Template-Creator/tree/master
 
 <h3>実装機能一覧</h3>
-- セッション、トークン、メール認証を利用した、ユーザー登録機能
+- セッション、トークン、メール認証を利用したユーザー登録機能
 <br>
-- セッション、トークン、メール認証を利用した、パスワードを忘れたユーザー向けのパスワード再設定機能
+- パスワードを忘れたユーザー向けに、セッション、トークン、メール認証を利用したパスワード再設定機能
 <br>
-- メール送信回数の制限機能
+- 再送信をカウントするカラムや、セッションを利用したメール送信回数の制限機能
 <br>
-- ログイン機能
+- メールアドレスとパスワードを利用したログイン機能
 <br>
-- ユーザー名、パスワード変更機能
+- ユーザー名変更機能
+<br>
+- パスワード変更機能
 <br>
 - ユーザー退会機能
 <br>
-- 定型文の作成 / コピー / 更新 / 削除機能
+- 定型文の作成、更新、削除、およびコピー機能
 <br>
-- 定型文の検索機能
+- 定型文のタイトルを入力することで、定型文を検索できる機能
 <br>
-- 定型文のソート機能
+- 作成日時および、更新日時で昇順、降順の並び替えが出来る定型文のソート機能
 <br>
 - ページネーション機能
 <br>
+- フォーム送信後にパスワードフィールドの値をクリアするDOM操作機能
 <h3>Licence</h3>
 "Laravel framework" is open source software licensed under <a href="https://en.wikipedia.org/wiki/MIT_License">the MIT license</a>.
 <br>
