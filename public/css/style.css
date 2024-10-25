@@ -9,12 +9,6 @@ body {
     margin-top: 76px;
 }
 
-.search {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-}
-
 .user {
     display: flex;
     justify-content: space-around;
