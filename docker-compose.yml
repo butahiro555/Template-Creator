@@ -1,0 +1,63 @@
+services:
+  web:
+    container_name: nginx  # Nginxコンテナの名前
+    build:
+      context: .  # ビルドコンテキスト
+      dockerfile: ./docker/nginx/Dockerfile  # 使用するDockerfile
+    ports:
+      - "80:80"  # ホストとコンテナのポートマッピング
+    volumes:
+      - ./docker/nginx/logs:/var/log/nginx  # logsフォルダに、コンテナ内のアクセスログと、エラーログをマウント
+      - ./:/var/www/html # 作業ディレクトリ直下のボリュームをlaravelフォルダにマウント
+    depends_on:
+      - app  # このサービスが依存するサービス
+
+  app:
+    container_name: php  # PHPコンテナの名前
+    build:
+      context: .  # ビルドコンテキスト
+      dockerfile: ./docker/php/Dockerfile  # 使用するDockerfile
+    depends_on:
+      - db  # このサービスが依存するサービス
+    volumes:
+      - ./:/var/www/html  # ソースコードのマウント
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini  # PHP設定ファイルのマウント
+      
+  db:
+    container_name: mysql  # MySQLコンテナの名前
+    image: mysql:8.0.38  # 使用するMySQLイメージ
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql  # MySQLのデータファイル
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf  # MySQLの設定ファイル
+      - ./docker/mysql/init.sql:/etc/mysql/init.sql  # 初期化SQLスクリプト
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}  # 環境変数の設定
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"  # ホストとコンテナのポートマッピング
+    restart: always  # コンテナの再起動ポリシー
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--host=localhost", "--user=root", "--password=${MYSQL_ROOT_PASSWORD}"]  # ヘルスチェックコマンド
+      interval: 60s  # チェックの間隔
+      timeout: 5s  # タイムアウト
+      retries: 3  # リトライ回数
+      start_period: 30s  # 起動後の猶予時間
+
+  mailpit:
+    image: axllent/mailpit  # Mailpitの公式イメージを指定
+    container_name: mailpit
+    ports:
+      - "1025:1025"  # SMTP ポート（Laravel等からのメール送信に使用）
+      - "8025:8025"  # Web UI ポート（ブラウザでメール確認用）
+      
+  redis:
+    image: redis:alpine  # 使用するRedisイメージ
+    container_name: redis  # Redisコンテナの名前
+    ports:
+      - "6379:6379"  # ホストとコンテナのポートマッピング
+    # Redisに関連する設定や最適化が必要な場合があります。
+networks:
+  default:
+    driver: bridge
