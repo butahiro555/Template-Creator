@@ -12,11 +12,11 @@
                     <x-input-label for="email" :value="__('メールアドレス')" />
                     <x-text-input id="email" class="form-control" type="email" name="email" :value="old('email')" required autocomplete="username" />
                 </div>
-                <div class="d-flex justify-content-end align-items-center mt-4">
+                <div class="d-flex flex-column flex-md-row justify-content-end align-items-end mt-4">
                     <x-primary-button class="btn btn-info" style="width: auto;">
                         {{ __('認証コード発行') }}
                     </x-primary-button>
-                    <x-primary-button type="button" class="btn btn-secondary ml-2" onclick="window.location.href='{{ route('login') }}'">
+                    <x-primary-button type="button" class="btn btn-secondary mt-2 mt-md-0 ml-md-2" style="width: auto;" onclick="window.location.href='{{ route('login') }}'">
                         {{ __('戻る') }}
                     </x-primary-button>
                 </div>

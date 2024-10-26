@@ -12,15 +12,13 @@
                     <x-input-label for="email" :value="__('メールアドレス')" />
                     <x-text-input id="email" class="form-control" type="email" name="email" required />
                 </div>               
-                <div class="d-flex justify-content-end align-items-center mt-4">
-                    <div class="d-flex pb-4">
-                        <x-primary-button class="btn btn-success" style="width: 170px;" value="send_verification">
-                            {{ __('認証コード発行') }}
-                        </x-primary-button>
-                        <x-primary-button type="button" class="btn btn-secondary ml-1" style="width: 140px;" onclick="window.location.href='{{ route('templates.index') }}'">
-                            {{ __('キャンセル') }}
-                        </x-primary-button>
-                    </div>
+                <div class="d-flex flex-column flex-md-row justify-content-end align-items-end mt-4">
+                    <x-primary-button class="btn btn-success" style="width: auto;" value="send_verification">
+                        {{ __('認証コード発行') }}
+                    </x-primary-button>
+                    <x-primary-button type="button" class="btn btn-secondary mt-2 mt-md-0 ml-md-2" style="width: auto;" onclick="window.location.href='{{ route('templates.index') }}'">
+                    {{ __('キャンセル') }}
+                    </x-primary-button>
                 </div>
              </form>
         </div>
