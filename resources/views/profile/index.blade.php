@@ -2,47 +2,51 @@
 @include('commons.navbar')
 
 @section('content')
-    <div class="container d-flex flex-column justify-content-center" style="height: 90vh;">
-        <div class="border p-3 mb-4 rounded w-100" style="max-width: 900px;">
-            <h3 class="mb-4">ユーザープロフィール</h3>
-            <div class="d-flex align-items-center mb-3">
-                <div class="flex-grow-1">
+    <div class="d-flex flex-column justify-content-center" style="min-height: 90vh;">
+        <div class="rounded border p-4 shadow-sm" style="width: 100%;">
+            <h3 class="mb-4 text-center">ユーザープロフィール</h3>
+
+            <div class="d-flex flex-column flex-md-row align-items-center mb-3">
+                <div class="flex-grow-1 text-md-end">
                     <strong>メール:</strong>
                 </div>
-                <div class="flex-grow-1">
-                    <p class="mb-0">{{ $user->email }}</p>
+                <div class="flex-grow-1 text-md-start mt-2 mt-md-0">
+                    <p class="mb-0 text-secondary">{{ $user->email }}</p>
                 </div>
             </div>
-            <div class="d-flex align-items-center mb-3">
-                <div class="flex-grow-1">
+
+            <div class="d-flex flex-column flex-md-row align-items-center mb-3">
+                <div class="flex-grow-1 text-md-end">
                     <strong>ユーザー名:</strong>
                 </div>
-                <div class="flex-grow-1">
-                    <p class="mb-0">{{ $user->name }}</p>
+                <div class="flex-grow-1 text-md-start mt-2 mt-md-0">
+                    <p class="mb-0 text-secondary">{{ $user->name }}</p>
                 </div>
-                <div>
+                <div class="d-flex justify-content-end mt-2 mt-md-0">
                     <a href="{{ route('profile.edit-name') }}" class="btn btn-success text-white">
                         <i class="fas fa-pen"></i>
                     </a>
                 </div>
             </div>
-            <div class="d-flex align-items-center mb-3">
-                <div class="flex-grow-1">
+
+            <div class="d-flex flex-column flex-md-row align-items-center mb-3">
+                <div class="flex-grow-1 text-md-end">
                     <strong>パスワード:</strong>
                 </div>
-                <div class="flex-grow-1">
-                    <p class="mb-0">********</p>
+                <div class="flex-grow-1 text-md-start mt-2 mt-md-0">
+                    <p class="mb-0 text-secondary">********</p>
                 </div>
-                <div>
+                <div class="d-flex justify-content-end mt-2 mt-md-0">
                     <a href="{{ route('profile.password-confirm') }}" class="btn btn-success text-white">
                         <i class="fas fa-pen"></i>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="border p-3 mb-4 rounded w-100" style="max-width: 900px;">
-            <h3 class="mb-4">オプション</h3>
-            <div class="d-flex justify-content-end">
+
+        <div class="rounded border p-4 mt-3 shadow-sm" style="width: 100%;">
+            <h3 class="mb-4 text-center">オプション</h3>
+            <div class="d-flex justify-content-center justify-content-md-end">
                 <form action="{{ route('profile.delete-user-password-confirm-form') }}" method="GET">
                     @csrf
                     <button type="submit" class="btn btn-danger text-white">
