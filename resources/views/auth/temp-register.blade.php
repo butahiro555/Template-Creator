@@ -2,13 +2,13 @@
 
 @section('content')
     <div class="d-flex justify-content-center align-items-center" style="min-height: 85vh;">
-        <div class="rounded border p-2 shadow-sm" style="max-width: 600px; width: 100%;">
+        <div class="rounded border p-4 shadow-sm" style="max-width: 600px; width: 100%;">
             <div class="text-center mt-2">
                 <h2>仮ユーザー登録画面</h2>
             </div>
             <form id="formClear" action="{{ route('temp-user.send') }}" method="POST">
                 @csrf
-                <div class="mb-3 p-2">
+                <div class="mb-3">
                     <x-input-label for="email" :value="__('メールアドレス')" />
                     <x-text-input id="email" class="form-control" type="email" name="email" required />
                 </div>               
