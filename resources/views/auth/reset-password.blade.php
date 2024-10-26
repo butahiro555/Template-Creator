@@ -24,15 +24,13 @@
                     <x-input-label for="password_confirmation" :value="__('新しいパスワードの確認')" />
                     <x-text-input id="password_confirmation" class="form-control" type="password" name="password_confirmation" required autocomplete="new-password" />
                 </div>
-		        <div class="d-flex justify-content-end align-items-center mt-4">
-                    <div class="d-flex pb-2">
-                        <x-primary-button class="btn btn-info" style="width: auto;">
-                            {{ __('パスワードリセット') }}
-                        </x-primary-button>
-                        <x-primary-button type="button" class="btn btn-secondary ml-2" style="width: 140px;" onclick="window.location.href='{{ route('templates.index') }}'">
-                            {{ __('キャンセル') }}
-                        </x-primary-button>
-                    </div>
+                <div class="d-flex flex-column flex-md-row justify-content-end align-items-end mt-4">
+                    <x-primary-button class="btn btn-info" style="width: auto;">
+                        {{ __('パスワードリセット') }}
+                    </x-primary-button>
+                    <x-primary-button type="button" class="btn btn-secondary mt-2 mt-md-0 ml-md-2" style="width: auto;" onclick="window.location.href='{{ route('templates.index') }}'">
+                        {{ __('キャンセル') }}
+                    </x-primary-button>
                 </div>
             </form>
     	</div>

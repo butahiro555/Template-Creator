@@ -20,10 +20,10 @@
                         {{ __('パスワードを忘れた方はこちら') }}
                 </a>
                 <div class="d-flex flex-column flex-md-row justify-content-end align-items-end mt-4">
-                    <x-primary-button class="btn btn-success" style="width: 120px;">
+                    <x-primary-button class="btn btn-success" style="width: auto;">
                         {{ __('ログイン') }}
                     </x-primary-button>
-                    <x-primary-button type="button" class="btn btn-secondary mt-2 mt-md-0 ml-md-2" style="width: 140px;" onclick="window.location.href='{{ route('templates.index') }}'">
+                    <x-primary-button type="button" class="btn btn-secondary mt-2 mt-md-0 ml-md-2" style="width: auto;" onclick="window.location.href='{{ route('templates.index') }}'">
                         {{ __('キャンセル') }}
                     </x-primary-button>
                 </div>

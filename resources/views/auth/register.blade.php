@@ -28,18 +28,13 @@
                     <x-input-label for="password_confirmation" :value="__('パスワード確認')" />
                     <x-text-input id="password_confirmation" class="form-control" type="password" name="password_confirmation" required autocomplete="new-password" />
                 </div>
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <a class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                        {{ __('ユーザー登録がお済みの方はこちら') }}
-                    </a>
-                    <div class="d-flex w-50">
-                        <x-primary-button class="btn-primary flex-grow-1">
-                            {{ __('登録') }}
-                        </x-primary-button>
-                        <x-primary-button type="button" class="btn-secondary w-50 ml-2" onclick="window.location.href='{{ route('templates.index') }}'">
-                            {{ __('キャンセル') }}
-                        </x-primary-button>
-                    </div>
+                <div class="d-flex flex-column flex-md-row justify-content-end align-items-end mt-4">
+                    <x-primary-button class="btn btn-primary" style="width: auto;">
+                        {{ __('登録') }}
+                    </x-primary-button>
+                    <x-primary-button type="button" class="btn btn-secondary mt-2 mt-md-0 ml-md-2" style="width: auto;" onclick="window.location.href='{{ route('templates.index') }}'">
+                        {{ __('キャンセル') }}
+                    </x-primary-button>
                 </div>
             </form>
         </div>
