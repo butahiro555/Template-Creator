@@ -26,9 +26,9 @@ https://www.template-creator.net
 <br>
 - フレームワーク：Laravel 10
 <br>
-- CSSフレームワーク：Tailwind CSS
+- CSSフレームワーク：Bootstrap
 <br>
-- 主要パッケージ：Axios、Font Awesome
+- 主要パッケージ：Font Awesome
 <br>
 - 環境構築ツール：Docker、Docker Compose
 <br>
@@ -63,6 +63,10 @@ https://github.com/butahiro555/project_on_docker
 - 一時ユーザー削除：有効期限切れの一時ユーザーを定期的に自動削除します。
 <h3>環境ごとの設定</h3>
 開発環境
+<br>
+- OS：Windows
+<br>
+- ディストリビューション：Ubuntu 22.04.5 LTS
 <br>
 - データベース：MySQLコンテナ(Dockerイメージ:mysql:8.0.38)
 <br>
