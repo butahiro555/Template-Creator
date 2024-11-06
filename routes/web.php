@@ -3,7 +3,7 @@
 use App\Http\Controllers\TemplatesController;
 use Illuminate\Support\Facades\Route;
 
-// 未ログインユーザーのページ
+// トップページ
 Route::get('/', [TemplatesController::class, 'index'])
     ->name('templates.index');
 
@@ -21,16 +21,15 @@ Route::middleware(['auth'])->group(function () {
             Route::post('store', [TemplatesController::class, 'store'])
                 ->name('templates.store');
 
-            Route::put('update/{id}', [TemplatesController::class, 'update'])
+            Route::patch('update/{id}', [TemplatesController::class, 'update'])
                 ->name('templates.update');
 
             Route::delete('destroy/{id}', [TemplatesController::class, 'destroy'])
                 ->name('templates.destroy');
+
+            // 検索機能
+            Route::get('search', [TemplatesController::class, 'search'])
+            ->name('templates.search');
         });
-
-        // 検索機能
-        Route::get('search', [TemplatesController::class, 'search'])
-            ->name('search');
     });
-
 });
