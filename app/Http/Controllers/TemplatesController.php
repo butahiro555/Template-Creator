@@ -35,7 +35,7 @@ class TemplatesController extends Controller
         // Saveボタンが押されたら、Template listに遷移させる
         return redirect()->route('templates.show');
     }
-    
+
     // 上書き保存機能
     public function update(Request $request, $id)
     {   
@@ -54,7 +54,7 @@ class TemplatesController extends Controller
         return redirect()->route('templates.show');
     }    
     
-        // テンプレートの一覧表示ページ
+    // テンプレートの一覧表示ページ
     public function show(Request $request)
     {   
         $user = Auth::user();
@@ -71,7 +71,8 @@ class TemplatesController extends Controller
                             ->paginate(5);
 
         return view('templates.show', ['templates' => $template]);
-    }    
+    }
+
     // 削除機能
     public function destroy($id)
     {
@@ -86,6 +87,7 @@ class TemplatesController extends Controller
         return redirect()->route('templates.show');
     }
 
+    // 検索機能
     public function search(Request $request)
     {
         // 検索ワードと並べ替えの条件を取得
@@ -100,7 +102,7 @@ class TemplatesController extends Controller
     
         // 検索結果が見つからなかった場合のエラーハンドリング
         if (count($template) === 0) {
-            return redirect()->route('templates.show')->withErrors(['text' => trans('error_message.template_not_found')]);
+            return redirect()->route('templates.show')->withErrors(['keyword' => trans('error_message.template_not_found')]);
         }
     
         // ビューに検索結果を渡す
