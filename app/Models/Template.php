@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Template extends Model
 {   
+    use HasFactory;
+
     // createでrequestを保存できるのは、titleとcontentカラムのみにしておく
     protected $fillable = ['title', 'content'];
     
@@ -16,4 +18,3 @@ class Template extends Model
     }
 
 }
-
