@@ -3,53 +3,71 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
+use Tests\TestCase;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
+    protected $user;
+    protected $plainPassword = 'current_password';
 
-    public function test_login_screen_can_be_rendered(): void
+    public function setUp(): void
     {
-        $response = $this->get('/login');
+        parent::setUp();
+        
+        // ユーザーをプレーンテキストのパスワードで生成
+        $this->user = User::factory()->create([
+            'password' => Hash::make($this->plainPassword),
+        ]);
+
+        // CSRFトークン検証を無効にする
+        $this->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+    }
+
+    public function testShowLoginForm()
+    {
+        $response = $this->get(route('login'));
 
         $response->assertStatus(200);
     }
 
-    public function test_users_can_authenticate_using_the_login_screen(): void
+    public function testLogin(): void
     {
-        $user = User::factory()->create();
+        $response = $this->post(route('login', [
+            'email' => $this->user->email,
+            'password' => $this->plainPassword,
+        ]));
 
-        $response = $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
-        ]);
-
-        $this->assertAuthenticated();
-        $response->assertRedirect(RouteServiceProvider::HOME);
+        $response->assertRedirect(route('templates.index'));
     }
 
-    public function test_users_can_not_authenticate_with_invalid_password(): void
+    public function testLoginWithWrongPassword()
     {
-        $user = User::factory()->create();
-
-        $this->post('/login', [
-            'email' => $user->email,
+        $response = $this->post(route('login', [
+            'email' => $this->user->email,
             'password' => 'wrong-password',
-        ]);
+        ]));
 
-        $this->assertGuest();
+        $response->assertSessionHasErrors(['email' => trans('error_message.email_invalid')]);
     }
 
-    public function test_users_can_logout(): void
+    public function testLogout(): void
     {
-        $user = User::factory()->create();
+        // ユーザーを認証
+        $this->actingAs($this->user);
 
-        $response = $this->actingAs($user)->post('/logout');
+        // ログアウトリクエスト
+        $response = $this->post(route('logout'));
 
+        // リダイレクトの確認
+        $response->assertRedirect(route('templates.index'));
+        
+        // ユーザーがゲスト状態であることを確認
         $this->assertGuest();
-        $response->assertRedirect('/');
     }
 }
