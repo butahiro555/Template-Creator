@@ -46,7 +46,6 @@ class UsersController extends Controller
         return view('auth.register', ['email' => $tempUser->email]);
     }
 
-    // ユーザー本登録処理
     public function register(Request $request)
     {
         $this->validationsController->validateRegisterForm($request);
@@ -61,6 +60,7 @@ class UsersController extends Controller
                 
                 // 仮ユーザーが存在しない場合の処理
                 if (!$tempUser) {
+                    // エラーメッセージをセッションに追加
                     throw new \Exception(trans('error_message.user_not_found'));
                 }
     
@@ -83,8 +83,8 @@ class UsersController extends Controller
     
                 // 仮ユーザーのデータを削除
                 $tempUser->delete();
-            });
-    
+	    });
+                
             // トランザクション終了後、メール送信を実行
             Mail::to($email)->queue(new RegistrationCompleted());
     
@@ -94,9 +94,9 @@ class UsersController extends Controller
         } catch (\Exception $e) {
             // エラーログを残してデバッグのために利用
             Log::error('User registration error:', ['error' => $e->getMessage()]);
-        
-            // ユーザーにカスタムメッセージを返す
-            return redirect()->back()->withErrors(['error' => trans('error_message.unexpected_error')]);
+            
+            // セッションにエラーを追加してリダイレクト
+            return redirect()->back()->withErrors(['tempUser' => $e->getMessage()]);
         }
-    }
+    }    
 }
