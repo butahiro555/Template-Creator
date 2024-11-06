@@ -9,6 +9,9 @@ RUN apt-get update && \
     zip \
     unzip \
     && docker-php-ext-install pdo pdo_mysql \
+    # Xdebugのインストール
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
     && rm -rf /var/lib/apt/lists/*
 
 # Composerのインストール
@@ -20,3 +23,6 @@ WORKDIR /var/www/html
 # storageディレクトリを作成して権限設定
 RUN mkdir -p /var/www/html/storage && \
     chown -R www-data:www-data /var/www/html/storage
+
+# Xdebugの設定をphp.iniに追加
+COPY ./php.ini /usr/local/etc/php/conf.d/
