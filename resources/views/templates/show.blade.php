@@ -5,7 +5,7 @@
     @if(isset($templates) && count($templates) > 0)
         <h5 class="text-center text-danger">テンプレート一覧</h5>
         <div class="d-flex justify-content-end mt-3 mr-3 ml-3 mb-2">
-            <form action="{{ route('search') }}" method="GET" class="d-flex">
+            <form action="{{ route('templates.search') }}" method="GET" class="d-flex">
                 <input type="text" name="keyword" class="form-control" placeholder="タイトルを検索" required>
                 <button type="submit" class="btn btn-success text-white">
                     <i class="fas fa-search"></i>
@@ -38,7 +38,7 @@
                 <!-- 更新と削除のフォーム -->
                 <form action="{{ route('templates.update', $template->id) }}" method="POST" class="mb-2">
                     @csrf
-                    @method('PUT')
+                    @method('PATCH')
                     <div class="form-group">
                         <input type="text" name="title" value="{{ $template->title }}" class="form-control" placeholder="Title">
                     </div>
