@@ -34,7 +34,7 @@ class ForgotPasswordUser extends Model
                 'token' => TokenService::generateToken(),
                 'token_expires_at' => TokenService::calculateExpiry(),
                 'expires_at' => TokenService::calculateExpiry(60),
-                'resend_count', // 再送信カウント
+                'resend_count' => 0,
             ]
         );
     }
