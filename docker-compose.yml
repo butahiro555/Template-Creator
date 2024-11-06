@@ -51,13 +51,6 @@ services:
     ports:
       - "1025:1025"  # SMTP ポート（Laravel等からのメール送信に使用）
       - "8025:8025"  # Web UI ポート（ブラウザでメール確認用）
-      
-  redis:
-    image: redis:alpine  # 使用するRedisイメージ
-    container_name: redis  # Redisコンテナの名前
-    ports:
-      - "6379:6379"  # ホストとコンテナのポートマッピング
-    # Redisに関連する設定や最適化が必要な場合があります。
 networks:
   default:
     driver: bridge
