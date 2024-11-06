@@ -131,7 +131,7 @@ class ForgotPasswordUsersController extends Controller
                     ->where('verification_code', $request->verification_code)
                     ->where('verification_code_expires_at', '>', Carbon::now())
                     ->firstOrFail();
-
+                    
                 // ユーザー情報を更新
                 $user = User::where('email', $email)->firstOrFail();
                 $user->password = bcrypt($request->password);
