@@ -18,7 +18,7 @@
             <directory>app</directory>
         </include>
     </source>
-    
+
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
@@ -31,12 +31,4 @@
         <env name="SESSION_DRIVER" value="file"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
     </php>
-
-        <!-- カバレッジレポートの設定 -->
-    <coverage>
-        <report>
-            <type>html</type>
-            <target>storage/coverage</target>
-        </report>
-    </coverage>
 </phpunit>
