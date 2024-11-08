@@ -30,12 +30,12 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # v3にアップデート
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3.12'
+          php-version: '8.3.12'  # 使用するPHPのバージョン
           extensions: xdebug, pdo_mysql
           coverage: xdebug
 
@@ -65,4 +65,10 @@ jobs:
           DB_DATABASE: laravel
           DB_USERNAME: user
           DB_PASSWORD: password
-        run: php artisan test --coverage
+        run: php artisan test --coverage-text --coverage-html=storage/coverage
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: storage/coverage
