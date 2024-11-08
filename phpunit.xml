@@ -12,6 +12,12 @@
             <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
+
+    <!-- カバレッジレポートの設定 -->
+    <logging>
+        <log type="coverage-html" target="storage/coverage"/>
+    </logging>
+
     <source>
         <include>
             <directory>app</directory>
