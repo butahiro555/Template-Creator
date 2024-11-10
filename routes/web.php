@@ -21,7 +21,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('store', [TemplatesController::class, 'store'])
                 ->name('templates.store');
 
-            Route::put('update/{id}', [TemplatesController::class, 'update'])
+            Route::patch('update/{id}', [TemplatesController::class, 'update'])
                 ->name('templates.update');
 
             Route::delete('destroy/{id}', [TemplatesController::class, 'destroy'])
