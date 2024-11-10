@@ -1,5 +1,11 @@
 <h1>Template&nbsp;Creator / 定型文管理サービス</h1>
-
+こちらは、Template Creatorの本番環境のリポジトリとなります。
+<br>
+開発環境のリポジトリは以下のURLからご確認ください。
+<br>
+https://github.com/butahiro555/Template-Creator/tree/main-dev-env
+<br>
+<br>
 <a href="https://gyazo.com/68b0398f3b4ff2851b50b6b283326d3f">
   <img src="https://i.gyazo.com/68b0398f3b4ff2851b50b6b283326d3f.png" alt="Image from Gyazo">
 </a>
@@ -42,6 +48,9 @@ https://www.template-creator.net
 <br>
 - セキュリティ：HTTPS (本番環境)、CSRF対策、XSS対策
 <br>
+- テスト：PHP Unit (php artisan test --coverage)
+<br>
+- CI/CD：Github Actions / Heroku
 <br>
 本プロジェクトのコンテナ構成は、php:8.3-fpm、nginx、mysql、Redisを使用しています。
 <br>
@@ -76,7 +85,7 @@ https://github.com/butahiro555/project_on_docker
 <br>
 - メールサービス：Mailpitコンテナ(Dockerイメージ:mailpit)
 <br>
-- キューシステム：Redisコンテナ(Dockerイメージ:redis)
+- キューシステム：Redisコンテナ(Dockerイメージ:redis) -> データベースへ移行
 <br>
 - APIキー：テスト用のキーを.envにて管理
 <br>
