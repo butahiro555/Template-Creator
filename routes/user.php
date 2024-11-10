@@ -25,7 +25,7 @@ Route::middleware('guest')->group(function () {
     // パスワードリセット
     Route::get('forgot-password', [ForgotPasswordUsersController::class, 'forgotPasswordForm'])->name('forgot-password.index'); // パスワード再設定画面を表示
     Route::post('forgot-password/send', [ForgotPasswordUsersController::class, 'sendResetForUser'])->name('forgot-password.send'); // 登録メールアドレス宛にパスワード再設定リンクURLを送信
-    Route::get('forgot-password/resetform', [ForgotPasswordUsersController::class, 'showResetForm'])->name('forgot-password.resetform'); // トークンURLを持った専用ユーザーパスワードリセット画面を表示
+    Route::get('forgot-password/resetform/{token}', [ForgotPasswordUsersController::class, 'showResetForm'])->name('forgot-password.resetform'); // トークンURLを持った専用ユーザーパスワードリセット画面を表示
     Route::post('forgot-password/reset', [ForgotPasswordUsersController::class, 'passwordReset'])->name('forgot-password.reset'); // 再設定パスワードを送信
 
     //メール確認を促すリダイレクト先
