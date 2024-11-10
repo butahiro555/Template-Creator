@@ -81,15 +81,20 @@ jobs:
             # 特定のディレクトリだけを別ブランチにコピー
             git config user.name "github-actions"
             git config user.email "github-actions@github.com"
-  
-            # MVCファイルを含むブランチを作成
-            git checkout -b update-mvc-files
-            git add app/ resources/ routes/  # 必要なディレクトリのみ追加
-            git commit -m "Update MVC files after passing tests"
-  
-            # 新ブランチをプッシュ
-            git push origin update-mvc-files
-  
+
+            # 変更があった場合にのみコミットする
+            if [[ $(git diff --stat) != '' ]]; then
+              # MVCファイルを含むブランチを作成
+              git checkout -b update-mvc-files
+              git add app/ resources/ routes/  # 必要なディレクトリのみ追加
+              git commit -m "Update MVC files after passing tests"
+
+              # 新ブランチをプッシュ
+              git push origin update-mvc-files
+            else
+              echo "No changes detected, skipping commit."
+            fi
+
             # GitHub CLI を使用して PR を作成
             gh pr create --base main --head update-mvc-files --title "Auto-update MVC files after tests" --body "Automated PR for MVC files from main-dev-env to main"
             
