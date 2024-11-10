@@ -95,8 +95,8 @@ class UsersController extends Controller
             // エラーログを残してデバッグのために利用
             Log::error('User registration error:', ['error' => $e->getMessage()]);
         
-            // ユーザーにカスタムメッセージを返す
-            return redirect()->back()->withErrors(['error' => trans('error_message.unexpected_error')]);
+            // セッションにエラーを追加してリダイレクト
+            return redirect()->back()->withErrors(['tempUser' => $e->getMessage()]);
         }
     }
 }
