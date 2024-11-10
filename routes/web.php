@@ -3,7 +3,7 @@
 use App\Http\Controllers\TemplatesController;
 use Illuminate\Support\Facades\Route;
 
-// 未ログインユーザーのページ
+// トップページ
 Route::get('/', [TemplatesController::class, 'index'])
     ->name('templates.index');
 
@@ -26,11 +26,10 @@ Route::middleware(['auth'])->group(function () {
 
             Route::delete('destroy/{id}', [TemplatesController::class, 'destroy'])
                 ->name('templates.destroy');
+
+            // 検索機能
+            Route::get('search', [TemplatesController::class, 'search'])
+            ->name('templates.search');
         });
-
-        // 検索機能
-        Route::get('search', [TemplatesController::class, 'search'])
-            ->name('search');
     });
-
 });
