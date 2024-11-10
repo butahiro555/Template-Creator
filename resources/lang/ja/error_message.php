@@ -42,7 +42,7 @@ return [
     'user_already_registered' => '既に登録済みのユーザーです。',
 
     // V
-    'verification_code_expired' => '検証コードの有効期限が切れています。',
-    'verification_code_incorrect' => '検証コードが正しくありません。',
-    'verification_invalid' => '無効または期限切れの検証情報です。',
+    'verification_code_expired' => '認証コードの有効期限が切れています。',
+    'verification_code_incorrect' => '認証コードが正しくありません。',
+    'verification_invalid' => '無効または期限切れの認証情報です。',
 ];
