@@ -10,11 +10,10 @@ class Template extends Model
     use HasFactory;
 
     // createでrequestを保存できるのは、titleとcontentカラムのみにしておく
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['title', 'content', 'user_id'];
     
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
 }
