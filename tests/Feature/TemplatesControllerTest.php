@@ -27,7 +27,16 @@ class TemplatesControllerTest extends TestCase
     }
 
     // アプリケーションのトップページを表示するテスト
-    public function testIndexScreen(): void
+
+    public function testIndexPage():void
+    {
+        $response = $this->get(route('templates.index'));
+
+        $response->assertStatus(200);
+    }
+
+    // テンプレート一覧を表示するテスト
+    public function testTemplateListScreen(): void
     {
         $response = $this->get(route('templates.show'));
 
