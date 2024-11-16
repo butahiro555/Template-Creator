@@ -40,14 +40,4 @@ class PasswordResetCompleted extends Mailable
             view: 'emails.password-reset-completed',
         );
     }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
-    }
 }
