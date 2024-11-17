@@ -124,6 +124,21 @@ class ForgotPasswordUsersControllerTest extends TestCase
         $response->assertSessionHasErrors(['email' => trans('error_message.resend_limit')]);
     }
 
+    // error_message.unexpected_errorを表示するテスト
+    public function testUnexpectedErrorMessage()
+    {
+        $email = $this->user->email;
+        
+        Mail::fake();
+        
+        // メール送信時に例外を発生させるモック
+        Mail::shouldReceive('to->queue')->andThrow(new \Exception('Mocked Exception'));
+
+        $response = $this->post(route('forgot-password.send'), ['email' => $email]);
+
+        $response->assertSessionHasErrors(['email' => trans('error_message.unexpected_error')]);
+    }
+
     // パスワードリセットフォームを表示するテスト
     public function testShowResetForm()
     {
