@@ -9,6 +9,16 @@ use Auth;
 
 class TemplatesController extends Controller
 {   
+    // 初期化するための変数を準備
+    protected $validationsController;
+
+    // コンストラクタでValidationsControllerのインスタンスを受け取り、プロパティに代入
+    public function __construct(ValidationsController $validationsController)
+    {
+        // 受け取ったValidationsControllerインスタンスをプロパティに代入
+        $this->validationsController = $validationsController;
+    }
+
     // トップページ
     public function index()
     {   
@@ -20,13 +30,9 @@ class TemplatesController extends Controller
     // 作成機能
     public function store(Request $request)
     {   
-        // 文字数制限オーバー時のエラーを回避するためのvalidate
-        $this->validate($request, [
-            'title' => 'required|max:20',
-            'content' => 'required|max:191',
-        ]);
+        // バリデーションチェック
+        $this->validationsController->validateTemplate($request);
         
-            
         $request->user()->templates()->create([
             'title' => $request->title,
             'content' => $request->content,
@@ -39,10 +45,8 @@ class TemplatesController extends Controller
     // 上書き保存機能
     public function update(Request $request, $id)
     {   
-        $this->validate($request, [
-            'title' => 'required|max:20',
-            'content' => 'required|max:191',
-        ]);
+        // バリデーションチェック
+        $this->validationsController->validateTemplate($request);
 
         // Templateが見つからない場合は404エラーを返す
         $template = Template::findOrFail($id);
