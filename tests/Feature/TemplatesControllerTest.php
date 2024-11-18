@@ -120,20 +120,33 @@ class TemplatesControllerTest extends TestCase
     // テンプレート検索機能のテスト
     public function testSearchTemplate()
     {
-        // 検索リクエストを送信
+        // 既存のテンプレートを更新
+        $this->template->update([
+            'title' => 'test',
+            'content' => 'test',
+        ]);
+
+        // 検索リクエストを送信(更新したtestタイトルが検索されるかを検証)
         $response = $this->get(route('templates.search', [
-            'keyword' => $this->template->title]));
+            'keyword' => 'test',
+        ]));
 
         // ステータスコードが200であることを確認
         $response->assertStatus(200);
-        
-        // 検索結果にテンプレートのタイトルが含まれていることを確認
+
+        // レスポンスに検索したテンプレートが含まれていることを確認
         $response->assertSee($this->template->title);
     }
 
     // テンプレート検索時、該当するテンプレートが見つからないときのテスト
     public function testSearchTemplateNotFound()
     {
+        // 既存のテンプレートを更新
+        $this->template->update([
+            'title' => 'test',
+            'content' => 'test',
+        ]);
+        
         // 検索リクエストを送信
         $response = $this->get(route('templates.search', [
             'keyword' => 'Not exists template']));
