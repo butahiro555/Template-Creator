@@ -65,7 +65,7 @@ class TemplatesController extends Controller
         
         // 他のユーザーの一覧は見れないようにする
         if ($user->id != Auth::id()) {
-            return redirect()->route('home')->withErrors('Unauthorized access.');
+            return redirect()->route('login')->withErrors(['unauthorized' => trans('error_message.unauthorezed_access')]);
         }
         
         $sortColumn = $request->input('sort', 'created_at');
