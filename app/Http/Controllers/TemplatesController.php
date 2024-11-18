@@ -98,25 +98,38 @@ class TemplatesController extends Controller
         $validatedData = $request->validate([
             'keyword' => 'nullable|string|max:20',
         ]);
-
-        // 検索ワードと並べ替えの条件を取得
-        $keyword = $validatedData['keyword'] ?? null;
-        $sortColumn = $request->input('sort', 'created_at'); // デフォルトの並べ替え列
-        $sortDirection = $request->input('direction', 'asc'); // デフォルトの並べ替え方向
-
+    
+        // 並べ替え可能なカラムと方向を定義
+        $allowedSortColumns = ['created_at', 'updated_at', 'title'];
+        $allowedSortDirections = ['asc', 'desc'];
+    
+        // 並べ替えの条件を取得（無効な値はデフォルトにフォールバック）
+        $sortColumn = $request->input('sort', 'created_at');
+        if (!in_array($sortColumn, $allowedSortColumns)) {
+            $sortColumn = 'created_at'; // デフォルト
+        }
+    
+        $sortDirection = strtolower($request->input('direction', 'asc'));
+        if (!in_array($sortDirection, $allowedSortDirections)) {
+            $sortDirection = 'asc'; // デフォルト
+        }
+    
+        // 検索キーワードをエスケープ
+        $keyword = isset($validatedData['keyword']) ? addcslashes($validatedData['keyword'], '%_') : null;
+    
         // 検索条件にマッチするテンプレートを取得
         $template = Template::when($keyword, function ($query, $keyword) {
-                return $query->where('title', 'like', '%' . $keyword . '%');
-            })
-            ->orderBy($sortColumn, $sortDirection)
-            ->paginate(5);
-
+                    return $query->where('title', 'like', '%' . $keyword . '%');
+                })
+                ->orderBy($sortColumn, $sortDirection)
+                ->paginate(5);
+    
         // 検索結果が見つからなかった場合のエラーハンドリング
         if ($template->isEmpty()) {
             return redirect()->route('templates.show')->withErrors(['keyword' => trans('error_message.template_not_found')]);
         }
-
+    
         // ビューに検索結果を渡す
         return view('templates.show', ['templates' => $template]);
-    }
+    }        
 }
