@@ -94,21 +94,28 @@ class TemplatesController extends Controller
     // 検索機能
     public function search(Request $request)
     {
+        // keywordのバリデーション
+        $validatedData = $request->validate([
+            'keyword' => 'nullable|string|max:20',
+        ]);
+
         // 検索ワードと並べ替えの条件を取得
-        $keyword = $request->input('keyword');
+        $keyword = $validatedData['keyword'] ?? null;
         $sortColumn = $request->input('sort', 'created_at'); // デフォルトの並べ替え列
         $sortDirection = $request->input('direction', 'asc'); // デフォルトの並べ替え方向
-    
+
         // 検索条件にマッチするテンプレートを取得
-        $template = Template::where('title', 'like', '%' . $keyword . '%')
+        $template = Template::when($keyword, function ($query, $keyword) {
+                return $query->where('title', 'like', '%' . $keyword . '%');
+            })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(5);
-    
+
         // 検索結果が見つからなかった場合のエラーハンドリング
-        if (count($template) === 0) {
+        if ($template->isEmpty()) {
             return redirect()->route('templates.show')->withErrors(['keyword' => trans('error_message.template_not_found')]);
         }
-    
+
         // ビューに検索結果を渡す
         return view('templates.show', ['templates' => $template]);
     }
