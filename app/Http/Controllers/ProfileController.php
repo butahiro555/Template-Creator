@@ -93,20 +93,23 @@ class ProfileController extends Controller
     // パスワード変更処理
     public function updatePasswordSend(Request $request): RedirectResponse
     {
+        // パスワードバリデーションを実行
         $validatedData = $this->validationsController->validatePassword($request);
         $user = $request->user();
-        
-        if (!Hash::check($validatedData['password'], $user->password)) {
-            $user->password = Hash::make($validatedData['password']);
-            $user->save();
 
-            // セッションの再生成
-            $request->session()->regenerate();
-
-            return redirect()->route('profile.index')->with(['status' => trans('success_message.password_change_successful')]);
-        } else {
+        // 現在のパスワードと新しいパスワードが同じかを確認
+        if (Hash::check($validatedData['password'], $user->password)) {
             return redirect()->back()->withErrors(['password' => trans('error_message.password_not_change')]);
         }
+        
+        // 新しいパスワードをハッシュ化して保存
+        $user->password = Hash::make($validatedData['password']);
+        $user->save();
+    
+        // セッションの再生成
+        $request->session()->regenerate();
+    
+        return redirect()->route('profile.index')->with(['status' => trans('success_message.password_change_successful')]);
     }
 
     // 退会希望者の現パスワード入力フォームの表示
