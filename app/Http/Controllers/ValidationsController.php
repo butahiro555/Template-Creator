@@ -55,9 +55,8 @@ class ValidationsController extends Controller
     public function validateTemplate(Request $request)
     {
         return $request->validate([
-            'title' => 'required|max:20',
-            'content' => 'required|max:191',
+            'title' => ['required', 'string', 'max:20'],
+            'content' => ['required', 'string', 'max:191'],
         ]);
     }
 }
-

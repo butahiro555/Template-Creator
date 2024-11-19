@@ -58,7 +58,7 @@ class TempUsersController extends Controller
         session()->put("resend_count_{$email}", $resendCount + 1);
 
         // メール送信
-        Mail::to($email)->queue(new VerificationEmail($verificationUrl, $verificationCode));
+	    Mail::to($email)->queue(new VerificationEmail($verificationUrl, $verificationCode));
 
         // メール確認を促すページにリダイレクト
         return redirect()->route('verify-your-email');
