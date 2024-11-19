@@ -9,6 +9,16 @@ use Auth;
 
 class TemplatesController extends Controller
 {   
+    // 初期化するための変数を準備
+    protected $validationsController;
+
+    // コンストラクタでValidationsControllerのインスタンスを受け取り、プロパティに代入
+    public function __construct(ValidationsController $validationsController)
+    {
+        // 受け取ったValidationsControllerインスタンスをプロパティに代入
+        $this->validationsController = $validationsController;
+    }
+
     // トップページ
     public function index()
     {   
@@ -20,13 +30,9 @@ class TemplatesController extends Controller
     // 作成機能
     public function store(Request $request)
     {   
-        // 文字数制限オーバー時のエラーを回避するためのvalidate
-        $this->validate($request, [
-            'title' => 'required|max:20',
-            'content' => 'required|max:191',
-        ]);
+        // バリデーションチェック
+        $this->validationsController->validateTemplate($request);
         
-            
         $request->user()->templates()->create([
             'title' => $request->title,
             'content' => $request->content,
@@ -35,14 +41,12 @@ class TemplatesController extends Controller
         // Saveボタンが押されたら、Template listに遷移させる
         return redirect()->route('templates.show');
     }
-    
+
     // 上書き保存機能
     public function update(Request $request, $id)
     {   
-        $this->validate($request, [
-            'title' => 'required|max:20',
-            'content' => 'required|max:191',
-        ]);
+        // バリデーションチェック
+        $this->validationsController->validateTemplate($request);
 
         // Templateが見つからない場合は404エラーを返す
         $template = Template::findOrFail($id);
@@ -54,14 +58,14 @@ class TemplatesController extends Controller
         return redirect()->route('templates.show');
     }    
     
-        // テンプレートの一覧表示ページ
+    // テンプレートの一覧表示ページ
     public function show(Request $request)
     {   
         $user = Auth::user();
         
         // 他のユーザーの一覧は見れないようにする
         if ($user->id != Auth::id()) {
-            return redirect()->route('home')->withErrors('Unauthorized access.');
+            return redirect()->route('login')->withErrors(['unauthorized' => trans('error_message.unauthorezed_access')]);
         }
         
         $sortColumn = $request->input('sort', 'created_at');
@@ -71,7 +75,8 @@ class TemplatesController extends Controller
                             ->paginate(5);
 
         return view('templates.show', ['templates' => $template]);
-    }    
+    }
+
     // 削除機能
     public function destroy($id)
     {
@@ -86,24 +91,45 @@ class TemplatesController extends Controller
         return redirect()->route('templates.show');
     }
 
+    // 検索機能
     public function search(Request $request)
     {
-        // 検索ワードと並べ替えの条件を取得
-        $keyword = $request->input('keyword');
-        $sortColumn = $request->input('sort', 'created_at'); // デフォルトの並べ替え列
-        $sortDirection = $request->input('direction', 'asc'); // デフォルトの並べ替え方向
+        // keywordのバリデーション
+        $validatedData = $request->validate([
+            'keyword' => 'nullable|string|max:20',
+        ]);
+    
+        // 並べ替え可能なカラムと方向を定義
+        $allowedSortColumns = ['created_at', 'updated_at', 'title'];
+        $allowedSortDirections = ['asc', 'desc'];
+    
+        // 並べ替えの条件を取得（無効な値はデフォルトにフォールバック）
+        $sortColumn = $request->input('sort', 'created_at');
+        if (!in_array($sortColumn, $allowedSortColumns)) {
+            $sortColumn = 'created_at'; // デフォルト
+        }
+    
+        $sortDirection = strtolower($request->input('direction', 'asc'));
+        if (!in_array($sortDirection, $allowedSortDirections)) {
+            $sortDirection = 'asc'; // デフォルト
+        }
+    
+        // 検索キーワードをエスケープ
+        $keyword = isset($validatedData['keyword']) ? addcslashes($validatedData['keyword'], '%_') : null;
     
         // 検索条件にマッチするテンプレートを取得
-        $template = Template::where('title', 'like', '%' . $keyword . '%')
-            ->orderBy($sortColumn, $sortDirection)
-            ->paginate(5);
+        $template = Template::when($keyword, function ($query, $keyword) {
+                    return $query->where('title', 'like', '%' . $keyword . '%');
+                })
+                ->orderBy($sortColumn, $sortDirection)
+                ->paginate(5);
     
         // 検索結果が見つからなかった場合のエラーハンドリング
-        if (count($template) === 0) {
-            return redirect()->route('templates.show')->withErrors(['text' => trans('error_message.template_not_found')]);
+        if ($template->isEmpty()) {
+            return redirect()->route('templates.show')->withErrors(['keyword' => trans('error_message.template_not_found')]);
         }
     
         // ビューに検索結果を渡す
         return view('templates.show', ['templates' => $template]);
-    }
+    }        
 }
