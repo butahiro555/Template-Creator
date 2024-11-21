@@ -46,7 +46,9 @@ jobs:
           php artisan key:generate
 
       - name: Copy APP_KEY to .env.testing
-        run: cp .env .env.testing
+        run: |
+          cp .env.testing.example .env.testing
+          cp .env .env.testing
 
       - name: Wait for MySQL to be ready
         run: |
