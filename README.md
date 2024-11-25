@@ -1,129 +1,97 @@
 <h1>Template&nbsp;Creator / 定型文管理サービス</h1>
-
+<br>
+こちらは、Template Creatorの開発環境のリポジトリとなります。
+<br>
+本番環境のリポジトリは以下のURLからご確認ください。
+<br>
+https://github.com/butahiro555/Template-Creator
+<br>
+<br>
 <a href="https://gyazo.com/68b0398f3b4ff2851b50b6b283326d3f">
   <img src="https://i.gyazo.com/68b0398f3b4ff2851b50b6b283326d3f.png" alt="Image from Gyazo">
 </a>
 
-これは定型文を作成、編集するためのアプリケーションです。
+<h3>使用方法</h3>
+1. $ git clone https://github.com/butahiro555/Template-Creator.git
 <br>
-このアプリケーションを使うことで、とても簡単に定型文を管理することが出来ます。
-
-<h3>サービス概要</h3>
-私たちは日頃から仕事やプライベートで、メールのような文章を作成する機会によく遭遇します。
+2. $ cd Template-Creator
 <br>
-そんなとき、同じような表現を用いた文章を入力する手間や、メールの編集画面で作成途中の文章を誤送信してしまうミスを抑えることを想定して、このアプリケーションを作成しました。
+3. $ git checkout -b main-dev-env origin/main-dev-env
 <br>
-また、タスクリストのようなアプリケーションとは違い、文章構成が分かりやすいUIや、少ないページ遷移の仕様にすることで、初めて使うユーザーでも使いやすいようなサービスになっています。
-
-<h3>サービスのURL</h3>
-https://www.template-creator.net
-
-<h3>メイン機能の使い方</h3>
-<a href="https://gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830"><img src="https://i.gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830.gif" alt="Image from Gyazo"></a>
-
-<h3>使用技術一覧</h3>
-- 使用言語：PHP 8.3
+4. $ cp .env.example .env
 <br>
-- フレームワーク：Laravel 10
-<br>
-- CSSフレームワーク：Tailwind CSS
-<br>
-- 主要パッケージ：Axios、Font Awesome
-<br>
-- 環境構築ツール：Docker、Docker Compose
-<br>
-- データベース：MySQL (開発環境)、PostgreSQL (本番環境)
-<br>
-- キューシステム：データベース、Redis
-<br>
-- メールサービス：Mailpit (開発環境)、Mailjet (本番環境)
-<br>
-- バージョン管理：Git、GitHub
-<br>
-- セキュリティ：HTTPS (本番環境)、CSRF対策、XSS対策
+5. $ cp .env.testing.example .env.testing
 <br>
 <br>
-本プロジェクトのコンテナ構成は、php:8.3-fpm、nginx、mysql、Redisを使用しています。
+6. .envと、.env.testingのDB_*** と、MYSQL_***の環境変数を以下のように設定する
 <br>
-詳細は以下のリポジトリにて確認可能です。
+DB_CONNECTION=mysql
 <br>
-https://github.com/butahiro555/project_on_docker
-
-<h3>アーキテクチャの概要</h3>
-- トランザクション処理：ユーザー登録やパスワード再設定でデータ整合性を保つために、トランザクションを使用しています。
+DB_HOST=db
 <br>
-- 非同期処理：データベースをバックエンドにしたキューシステムで、迅速なページ遷移とデータ整合性を実現しました。
+DB_PORT=3306
 <br>
-- データベースジョブ設定：トランザクション処理が成功した場合にのみ、メール送信ジョブが実行されるようにしました。
+DB_DATABASE=任意のデータベース名
 <br>
-- メール送信制限：不正防止のため、メール再送信回数を3回に制限しています。
+DB_USERNAME=任意のユーザー名
 <br>
-- ログ収集：エラーログを収集し、トラブルシューティングとセキュリティ監視を行います。
-<br>
-- 一時ユーザー削除：有効期限切れの一時ユーザーを定期的に自動削除します。
-<h3>環境ごとの設定</h3>
-開発環境
-<br>
-- データベース：MySQLコンテナ(Dockerイメージ:mysql:8.0.38)
-<br>
-- Webサーバー：Nginxコンテナ(Dockerイメージ:nginx:1.27)
-<br>
-- アプリケーションサーバー：PHPコンテナ(Dockerイメージ:php:8.3-fpm)
-<br>
-- メールサービス：Mailpitコンテナ(Dockerイメージ:mailpit)
-<br>
-- キューシステム：Redisコンテナ(Dockerイメージ:redis)
-<br>
-- APIキー：テスト用のキーを.envにて管理
+DB_PASSWORD=任意のパスワード名
 <br>
 <br>
-本番環境
+MYSQL_ROOT_PASSWORD=任意のrootのパスワード名
 <br>
-- データベース：PostgreSQL (Heroku)
+MYSQL_DATABASE=任意のデータベース名
 <br>
-- Webサーバー：Apache2 (Heroku)
+MYSQL_USER=意のユーザー名
 <br>
-- アプリケーションサーバー：PHP-FPM 8.3.12 (Heroku)
-<br>
-- メールサービス：Mailjet
-<br>
-- キューシステム：データベースを使用 (PostgreSQL)
-<br>
-- APIキー：Heroku環境変数から取得
+MYSQL_PASSWORD=任意のパスワード名
 <br>
 <br>
-※本アプリケーションは、以前AWS Cloud9にて作成したアプリケーションをローカルにてDocker環境を用いて改修を行い、Github、およびHerokuにアップロードし直しています。
+7. $ docker compose up -d
 <br>
-以前作成したときのアプリケーションのコードは、以下のmasterブランチをご覧ください。
+8. $ docker compose exec -it app bash
 <br>
-https://github.com/butahiro555/Template-Creator/tree/master
-
-<h3>実装機能一覧</h3>
-- セッション、トークン、メール認証を利用したユーザー登録機能
+9. # chmod -R guo+w storage
 <br>
-- パスワードを忘れたユーザー向けに、セッション、トークン、メール認証を利用したパスワード再設定機能
+10. # composer install
 <br>
-- 再送信をカウントするカラムや、セッションを利用したメール送信回数の制限機能
+11. # php artisan key:generate
 <br>
-- メールアドレスとパスワードを利用したログイン機能
+12. .envに出力したAPP_KEYを、.env.testingのAPP_KEYにもコピーする
 <br>
-- ユーザー名変更機能
+13. # php artisan storage:link
 <br>
-- パスワード変更機能
+14. # php artisan config:clear
 <br>
-- ユーザー退会機能
+15. # php artisan migrate
 <br>
-- 定型文の作成、更新、削除、およびコピー機能
+16. # exit
 <br>
-- 定型文のタイトルを入力することで、定型文を検索できる機能
+17. $ docker compose exec -it db bash
 <br>
-- 作成日時および、更新日時で昇順、降順の並び替えが出来る定型文のソート機能
+18. # mysql -u root -p
 <br>
-- ページネーション機能
+19. # 設定したMYSQL_ROOT_PASSWORDを入力
 <br>
-- フォーム送信後にパスワードフィールドの値をクリアするDOM操作機能
-<h3>Licence</h3>
-"Laravel framework" is open source software licensed under <a href="https://en.wikipedia.org/wiki/MIT_License">the MIT license</a>.
+20. mysql> CREATE DATABASE .env.testingで設定したデータベース名;
 <br>
+21. mysql> CREATE USER '.env.testingで設定したユーザー名'@'%' IDENTIFIED BY '.env.testingで設定したパスワード名';
 <br>
-「Laravel framework」は、<a href="https://en.wikipedia.org/wiki/MIT_License">MITライセンス</a>の下にライセンスされているオープンソースのソフトウェアです。
+22. mysql> GRANT ALL PRIVILEGES ON .env.testingで設定したデータベース名.* TO '.env.testingで設定したユーザー名'@'%';
+<br>
+23. mysql> FLUSH PRIVILEGES;
+<br>
+24. mysql> exit
+<br>
+25. # exit
+<br>
+26. $ docker compose exec -it app bash
+<br>
+27. # php artisan migrate --env=testing
+<br>
+28. # php artisan test --coverage（カバレッジレポートを出力する場合、# vendor/bin/phpunit --coverage-html storage/coverage）
+<br>
+29. # php artisan queue:work （手動テストする場合、キューシステムにデータベースを使用しているので、メール送信を実行可能にしておく）
+<br>
+30. 手動テストで各機能を確認
+<br>
