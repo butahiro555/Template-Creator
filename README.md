@@ -23,7 +23,7 @@ https://github.com/butahiro555/Template-Creator
 5. $ cp .env.testing.example .env.testing
 <br>
 <br>
-6. .envと、.env.testingのDB_*** と、MYSQL_***の環境変数を以下のように設定する
+6. .envと、.env.testingのDB_*** と、MYSQL_***の環境変数を以下のように設定します。
 <br>
 DB_CONNECTION=mysql
 <br>
@@ -57,7 +57,7 @@ MYSQL_PASSWORD=任意のパスワード名
 <br>
 11. # php artisan key:generate
 <br>
-12. .envに出力したAPP_KEYを、.env.testingのAPP_KEYにもコピーする
+12. .envに出力したAPP_KEYを、.env.testingのAPP_KEYにもコピーします。
 <br>
 13. # php artisan storage:link
 <br>
@@ -87,11 +87,13 @@ MYSQL_PASSWORD=任意のパスワード名
 <br>
 26. $ docker compose exec -it app bash
 <br>
-27. # php artisan migrate --env=testing
+27. # php artisan migrate --env=testing（テスト用のデータベースのマイグレーションが済んでいた場合は不要です）
 <br>
-28. # php artisan test --coverage（カバレッジレポートを出力する場合、# vendor/bin/phpunit --coverage-html storage/coverage）
+28. # php artisan test --coverage（カバレッジレポートを出力する場合は次のコマンドを実行します。# vendor/bin/phpunit --coverage-html storage/coverage）
 <br>
-29. # php artisan queue:work （手動テストする場合、キューシステムにデータベースを使用しているので、メール送信を実行可能にしておく）
+29. # php artisan queue:work （手動テストする場合、キューシステムにデータベースを使用しているので、メール送信を実行可能にしておきます）
 <br>
 30. 手動テストで各機能を確認
+<br>
+※ maipitコンテナが問題なく動作していれば、http://localhost:8025でメールを確認できます。
 <br>
