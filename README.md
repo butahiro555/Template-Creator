@@ -93,7 +93,7 @@ MYSQL_PASSWORD=任意のパスワード名
 <br>
 ※ カバレッジレポートを出力する場合は次のコマンドを実行します。
 <br>
-# vendor/bin/phpunit --coverage-html storage/coverage）
+# vendor/bin/phpunit --coverage-html storage/coverage
 <br>
 出力したカバレッジレポートは、storage/coverage直下にあるhtmlファイルをブラウザを使って確認できます。
 <br>
