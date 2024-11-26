@@ -25,4 +25,4 @@ RUN mkdir -p /var/www/html/storage && \
     chown -R www-data:www-data /var/www/html/storage
 
 # Xdebugの設定をphp.iniに追加
-COPY ./php.ini /usr/local/etc/php/conf.d/
+COPY ./docker/php/php.ini /usr/local/etc/php/conf.d/
