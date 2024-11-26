@@ -87,13 +87,19 @@ MYSQL_PASSWORD=任意のパスワード名
 <br>
 26. $ docker compose exec -it app bash
 <br>
-27. # php artisan migrate --env=testing（テスト用のデータベースのマイグレーションが済んでいた場合は不要です）
+27. # php artisan migrate --env=testing
 <br>
-28. # php artisan test --coverage（カバレッジレポートを出力する場合は次のコマンドを実行します。# vendor/bin/phpunit --coverage-html storage/coverage）
+28. # php artisan test --coverage
+<br>
+※ カバレッジレポートを出力する場合は次のコマンドを実行します。
+<br>
+# vendor/bin/phpunit --coverage-html storage/coverage）
+<br>
+出力したカバレッジレポートは、storage/coverage直下にあるhtmlファイルをブラウザを使って確認できます。
 <br>
 29. # php artisan queue:work （手動テストする場合、キューシステムにデータベースを使用しているので、メール送信を実行可能にしておきます）
 <br>
-30. 手動テストで各機能を確認
+30. http://localhostにアクセスし、手動テストで各機能を確認します。
 <br>
-※ maipitコンテナが問題なく動作していれば、http://localhost:8025でメールを確認できます。
+※ maipitコンテナが問題なく動作していれば、http://localhost:8025 でメールを確認できます。
 <br>
