@@ -42,7 +42,7 @@ MYSQL_ROOT_PASSWORD=任意のrootのパスワード名
 <br>
 MYSQL_DATABASE=任意のデータベース名
 <br>
-MYSQL_USER=意のユーザー名
+MYSQL_USER=任意のユーザー名
 <br>
 MYSQL_PASSWORD=任意のパスワード名
 <br>
