@@ -26,7 +26,12 @@ https://www.template-creator.net
 
 <h3>メイン機能の使い方</h3>
 <a href="https://gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830"><img src="https://i.gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830.gif" alt="Image from Gyazo"></a>
-
+<br>
+<br>
+レスポンシブデザインにも対応しています。
+<br>
+<a href="https://gyazo.com/76e9ae28d64a384474b1645023587d7f"><img src="https://i.gyazo.com/76e9ae28d64a384474b1645023587d7f.gif" alt="Image from Gyazo"></a>
+<br>
 <h3>使用技術一覧</h3>
 - 使用言語：PHP 8.3
 <br>
