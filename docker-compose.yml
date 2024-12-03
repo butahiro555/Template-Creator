@@ -51,6 +51,19 @@ services:
     ports:
       - "1025:1025"  # SMTP ポート（Laravel等からのメール送信に使用）
       - "8025:8025"  # Web UI ポート（ブラウザでメール確認用）
+
+  node:
+    container_name: node  # Node.jsコンテナの名前
+    image: node:18  # Node.jsのイメージ（最新LTS）
+    working_dir: /app  # 作業ディレクトリ
+    volumes:
+      - ./:/app # プロジェクト直下のpackage.jsonをコンテナ内にマウント
+    ports:
+      - "8080:8080"  # Vue.js開発サーバーのポートマッピング
+    networks:
+      - default
+    command: sh -c "npm install && npm run serve"  # 初回起動時に依存関係をインストールし、開発サーバーを起動
+
 networks:
   default:
     driver: bridge
