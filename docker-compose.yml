@@ -54,15 +54,13 @@ services:
 
   node:
     container_name: node  # Node.jsコンテナの名前
-    image: node:18  # Node.jsのイメージ（最新LTS）
-    working_dir: /app  # 作業ディレクトリ
+    image: node:18  # Node.jsのイメージ（最新LTS版を指定）
+    working_dir: /app  # 作業ディレクトリ（プロジェクトルート）
     volumes:
-      - ./:/app # プロジェクト直下のpackage.jsonをコンテナ内にマウント
+      - ./:/app # プロジェクト直下のファイルをコンテナ内の/appにマウント（ここでpackage.jsonも含まれる）
     ports:
-      - "8080:8080"  # Vue.js開発サーバーのポートマッピング
-    networks:
-      - default
-    command: sh -c "npm install && npm run serve"  # 初回起動時に依存関係をインストールし、開発サーバーを起動
+      - "5173:5173"  # Vue.js開発サーバーのポートマッピング
+    command: sh -c "npm install && npm run dev"  # 初回起動時に依存関係をインストールし、vite開発サーバーを起動
 
 networks:
   default:
