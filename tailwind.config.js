@@ -7,6 +7,8 @@ export default {
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './resources/js/**/*.vue', // Vueファイルを含む
+        './resources/js/**/*.js', // JavaScriptファイルを含む
     ],
 
     theme: {
@@ -14,8 +16,19 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                primary: '#3498db',
+                secondary: '#2ecc71',
+                darkBg: '#2c3e50',
+                darkText: '#ecf0f1',
+            },
         },
     },
 
-    plugins: [forms],
+    darkMode: 'class',  // ダークモードを有効化
+
+    plugins: [
+        forms,
+        require('@tailwindcss/typography'), // 必要に応じて追加
+    ],
 };
