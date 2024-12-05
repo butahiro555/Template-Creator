@@ -14,7 +14,10 @@ export default defineConfig({
         vue(), // Vue.jsのプラグインを追加
     ],
     server: {
-        host: '0.0.0.0', // 外部からのアクセスを許可
+        host: true,
+        hmr: {
+            host: 'localhost',
+        },
         port: process.env.PORT || 5173, // HerokuなどでPORTが設定されていればそのポートを使用
         watch: {
             usePolling: true, // Docker環境でのファイル変更検知を安定させるため
