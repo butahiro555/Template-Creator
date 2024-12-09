@@ -11,7 +11,7 @@
                     <strong>メール:</strong>
                 </div>
                 <div class="flex-grow-1 text-md-start mt-2 mt-md-0">
-                    <p class="mb-0 text-secondary">{{ $user->email }}</p>
+                    <p class="mb-0">{{ $user->email }}</p>
                 </div>
             </div>
 
@@ -20,7 +20,7 @@
                     <strong>ユーザー名:</strong>
                 </div>
                 <div class="flex-grow-1 text-md-start mt-2 mt-md-0">
-                    <p class="mb-0 text-secondary">{{ $user->name }}</p>
+                    <p class="mb-0">{{ $user->name }}</p>
                 </div>
                 <div class="d-flex justify-content-end mt-2 mt-md-0">
                     <a href="{{ route('profile.edit-name') }}" class="btn btn-success text-white">
@@ -34,7 +34,7 @@
                     <strong>パスワード:</strong>
                 </div>
                 <div class="flex-grow-1 text-md-start mt-2 mt-md-0">
-                    <p class="mb-0 text-secondary">********</p>
+                    <p class="mb-0">********</p>
                 </div>
                 <div class="d-flex justify-content-end mt-2 mt-md-0">
                     <a href="{{ route('profile.password-confirm') }}" class="btn btn-success text-white">
