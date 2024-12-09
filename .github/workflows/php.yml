@@ -39,11 +39,22 @@ jobs:
           extensions: xdebug, pdo_mysql
           coverage: xdebug
 
-      - name: Install dependencies
+      - name: Install PHP dependencies
         run: |
           cp .env.example .env
           composer install --prefer-dist --no-progress --no-suggest
           php artisan key:generate
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # 必要に応じてNode.jsのバージョンを調整
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Build assets using Vite
+        run: npm run build
 
       - name: Copy APP_KEY to .env.testing
         run: |
@@ -58,7 +69,7 @@ jobs:
             echo "Waiting for MySQL..."
             sleep 2
           done
-          
+
       - name: Run migrations
         run: php artisan migrate --seed
 
@@ -76,4 +87,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: storage/coverage
+          path: storage/coverages
