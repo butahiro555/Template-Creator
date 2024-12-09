@@ -2,6 +2,7 @@
 @include('commons.navbar')
 
 @section('content')
+    <div id="app" class="mb-5"></div>
     <h5 class="text-center text-primary">テンプレート作成画面</h5>
     <div class="top">
         <form action="{{ route('templates.store') }}" method="POST">
