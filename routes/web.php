@@ -7,6 +7,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [TemplatesController::class, 'index'])
     ->name('templates.index');
 
+Route::post('/theme/toggle', function () {
+    $currentMode = session('darkMode', 'disabled');
+    $newMode = $currentMode === 'enabled' ? 'disabled' : 'enabled';
+    session(['darkMode' => $newMode]);
+
+    return response()->json(['darkMode' => $newMode]);
+})->name('theme.toggle');
+
 // 認証済みユーザーのためのルートグループ
 Route::middleware(['auth'])->group(function () {
     
