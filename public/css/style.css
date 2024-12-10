@@ -63,29 +63,3 @@ body.dark-mode .form-control:focus {
 .wrapper-button {
     margin: 10px; /* ボタン間のスペースを確保 */
 }
-
-/* flexboxを使用する */
-/* 親要素 */
-.flex_test-box {
-    display: flex;
-    justify-content: flex-end;
-    width: 90%;
-}
-
-/* 子要素 */
-.flex_test-item {
-    margin: 10px;
-}
-
-/* Updateが1,Deleteが2,Copyが3で、それを並び替える */
-.flex_test-item:nth-child(1) {
-    order: 2;
-}
-
-.flex_test-item:nth-child(2) {
-    order: 1;
-}
-
-.flex_test-item:nth-child(3) {
-    order: 3;
-}
