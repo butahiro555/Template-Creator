@@ -14,15 +14,15 @@ export default defineConfig({
         vue(), // Vue.jsのプラグインを追加
     ],
     server: {
-        host: true,
+        host: '0.0.0.0',
         hmr: {
             host: 'localhost',
         },
-        port: process.env.PORT || 5173, // HerokuなどでPORTが設定されていればそのポートを使用
+        port: process.env.PORT || 5173,
         watch: {
-            usePolling: true, // Docker環境でのファイル変更検知を安定させるため
+            usePolling: true,
         },
-    },
+    },    
     resolve: {
         alias: {
             '@': '/resources/js', // Vueのエイリアス設定
