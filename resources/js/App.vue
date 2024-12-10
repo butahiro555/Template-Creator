@@ -1,31 +1,25 @@
 <template>
   <div>
-    <!-- ダークモード切り替えボタン -->
-    <button @click="toggleDarkMode" style="padding: 10px; background: gray; color: white; border: none; border-radius: 5px;">
-      {{ isDarkMode ? "Light Mode" : "Dark Mode" }}
+    <button @click="toggleDarkMode" class="btn btn-dark">
+      {{ state.darkMode ? 'ライトモード' : 'ダークモード' }}
     </button>
   </div>
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue';
+import { inject } from 'vue';
+import axios from 'axios';
 
-// ダークモード状態を管理
-const isDarkMode = ref(localStorage.getItem('darkMode') === 'enabled');
+// Vue.jsで提供された状態を受け取る
+const state = inject('state');
 
-// ダークモードを切り替える関数
-const toggleDarkMode = () => {
-  isDarkMode.value = !isDarkMode.value;
-  localStorage.setItem('darkMode', isDarkMode.value ? 'enabled' : 'disabled');
-};
-
-// クラスを状態に応じて反映
-watchEffect(() => {
-  const html = document.body;
-  if (isDarkMode.value) {
-    html.classList.add('dark-mode');
-  } else {
-    html.classList.remove('dark-mode');
+// ダークモードの切り替え
+const toggleDarkMode = async () => {
+  try {
+    const response = await axios.post('/theme/toggle');
+    state.darkMode = response.data.darkMode === 'enabled';
+  } catch (error) {
+    console.error('Error toggling dark mode:', error);
   }
-});
+};
 </script>
