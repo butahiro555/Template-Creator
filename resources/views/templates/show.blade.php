@@ -2,7 +2,11 @@
 @include('commons.navbar')
 
 @section('content')
-    <div id="app" class="mb-5"></div>
+        <!-- Vue.js アプリケーション -->
+    <div id="app"
+        data-dark-mode="{{ session('darkMode', 'disabled') }}" 
+        data-csrf="{{ csrf_token() }}">
+    </div>
     @if(isset($templates) && count($templates) > 0)
         <h5 class="text-center text-danger">テンプレート一覧</h5>
         <div class="d-flex justify-content-end mt-3 mr-3 ml-3 mb-2">
