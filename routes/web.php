@@ -1,19 +1,15 @@
 <?php
 
 use App\Http\Controllers\TemplatesController;
+use App\Http\Controllers\ThemesController;
 use Illuminate\Support\Facades\Route;
 
 // トップページ
 Route::get('/', [TemplatesController::class, 'index'])
     ->name('templates.index');
 
-Route::post('/theme/toggle', function () {
-    $currentMode = session('darkMode', 'disabled');
-    $newMode = $currentMode === 'enabled' ? 'disabled' : 'enabled';
-    session(['darkMode' => $newMode]);
-
-    return response()->json(['darkMode' => $newMode]);
-})->name('theme.toggle');
+Route::post('/theme/toggle', [ThemesController::class, 'darkMode'])
+    ->name('theme.toggle');
 
 // 認証済みユーザーのためのルートグループ
 Route::middleware(['auth'])->group(function () {
