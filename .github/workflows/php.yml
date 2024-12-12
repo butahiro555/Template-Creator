@@ -45,17 +45,6 @@ jobs:
           composer install --prefer-dist --no-progress --no-suggest
           php artisan key:generate
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install Node.js dependencies
-        run: npm ci
-
-      - name: Build assets using Vite
-        run: npm run build
-
       - name: Copy APP_KEY to .env.testing
         run: |
           cp .env.testing.example .env.testing
