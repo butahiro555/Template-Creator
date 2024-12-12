@@ -28,9 +28,9 @@ https://www.template-creator.net
 <a href="https://gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830"><img src="https://i.gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830.gif" alt="Image from Gyazo"></a>
 <br>
 <br>
-　　レスポンシブデザインにも対応しています。　　　　　　　　Vue.jsでダークモードを実装しました。
+　　レスポンシブデザインにも対応しています。
 <br>
-<a href="https://gyazo.com/76e9ae28d64a384474b1645023587d7f"><img src="https://i.gyazo.com/76e9ae28d64a384474b1645023587d7f.gif" alt="Image from Gyazo"></a>　　　<a href="https://gyazo.com/7f6a536510abac6b7c7632d9b3c322c1"><img src="https://gyazo.com/7f6a536510abac6b7c7632d9b3c322c1.gif" alt="Image from Gyazo"></a>
+<a href="https://gyazo.com/76e9ae28d64a384474b1645023587d7f"><img src="https://i.gyazo.com/76e9ae28d64a384474b1645023587d7f.gif" alt="Image from Gyazo"></a>
 <br>
 <br>
 <h3>使用技術一覧</h3>
@@ -39,10 +39,6 @@ https://www.template-creator.net
 - フレームワーク：Laravel 10
 <br>
 - CSSフレームワーク：Bootstrap
-<br>
-- フロントエンドフレームワーク：Vue.js
-<br>
-- ビルドツール：Vite
 <br>
 - 主要パッケージ：Font Awesome
 <br>
@@ -99,8 +95,6 @@ https://github.com/butahiro555/Template-Creator/tree/main-dev-env/docker
 <br>
 - アプリケーションサーバー：PHPコンテナ(Dockerイメージ:php:8.3-fpm)
 <br>
-- フロントエンド：Node.jsコンテナ(Dockerイメージ：node:18)
-<br>
 - メールサービス：Mailpitコンテナ(Dockerイメージ:mailpit)
 <br>
 - キューシステム：Redisコンテナ(Dockerイメージ:redis) -> データベースへ移行
@@ -115,8 +109,6 @@ https://github.com/butahiro555/Template-Creator/tree/main-dev-env/docker
 - Webサーバー：Apache2 (Heroku)
 <br>
 - アプリケーションサーバー：PHP-FPM 8.3.12 (Heroku)
-<br>
-- フロントエンド：package.jsonに記載されたスクリプトに従い、直接Node.js（node:18）を使用してビルド(Heroku)
 <br>
 - メールサービス：Mailjet
 <br>
@@ -153,8 +145,6 @@ https://github.com/butahiro555/Template-Creator/tree/master
 - 作成日時および、更新日時で昇順、降順の並び替えが出来る定型文のソート機能
 <br>
 - ページネーション機能
-<br>
-- ダークモード / ライトモード切り替え機能  <- New!
 <br>
 - フォーム送信後にパスワードフィールドの値をクリアするDOM操作機能
 <h3>Licence</h3>
