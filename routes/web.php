@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [TemplatesController::class, 'index'])
     ->name('templates.index');
 
-Route::post('/theme/toggle', [ThemesController::class, 'darkMode'])
-    ->name('theme.toggle');
-
 // 認証済みユーザーのためのルートグループ
 Route::middleware(['auth'])->group(function () {
     
