@@ -15,8 +15,6 @@
     
     <!-- Bootstrap Icons CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
-
-    @vite('resources/js/app.js')
 </head>
 <body class="{{ session('darkMode') === 'enabled' ? 'dark-mode' : '' }}">
     <div class="mt-3 container">

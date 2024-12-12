@@ -2,12 +2,6 @@
 @include('commons.navbar')
 
 @section('content')
-    <!-- Vue.js アプリケーション -->
-    <div id="app" 
-        data-dark-mode="{{ session('darkMode', 'disabled') }}" 
-        data-csrf="{{ csrf_token() }}">
-    </div>
-
     <h5 class="text-center text-primary">テンプレート作成画面</h5>
     <div class="top">
         <form action="{{ route('templates.store') }}" method="POST">
