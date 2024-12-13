@@ -40,6 +40,12 @@
                     <li class="text-center nav-item">
                         <a href="{{ route('login') }}" class="nav-link">ログイン</a>
                     </li>
+                    <li class="text-center nav-item">
+                        <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('guest-login').submit();">ゲストログイン</a>
+                        <form id="guest-login" action="{{ route('guest-login') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
                 @endif
 	   		</ul> 
 		</div>

@@ -5,6 +5,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\AuthsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ForgotPasswordUsersController;
+use App\Http\Controllers\GuestLoginsController;
 use Illuminate\Support\Facades\Route;
 
 // ゲストユーザーにアクセスを許可するためのルートグループ
@@ -21,6 +22,9 @@ Route::middleware('guest')->group(function () {
     // ログイン
     Route::get('login', [AuthsController::class, 'showLoginForm'])->name('login'); // ログイン画面を表示
     Route::post('login', [AuthsController::class, 'login']); // ログイン情報を送信
+
+    // ゲストユーザーログイン
+    Route::post('guest-login', [GuestLoginsController::class, 'guestLogin'])->name('guest-login'); //ゲストユーザーを作成してログイン
 
     // パスワードリセット
     Route::get('forgot-password', [ForgotPasswordUsersController::class, 'forgotPasswordForm'])->name('forgot-password.index'); // パスワード再設定画面を表示

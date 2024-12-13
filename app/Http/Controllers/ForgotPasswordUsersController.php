@@ -47,6 +47,11 @@ class ForgotPasswordUsersController extends Controller
             return redirect()->back()->withErrors(['email' => trans('error_message.user_not_found')]);
         }
 
+        // ゲストユーザーかどうかを判別
+        if ($registeredUser->is_guest) {
+            return redirect()->back()->withErrors(['email' => trans('error_message.guest_user_not_use')]);
+        }
+
         // パスワードを忘れたユーザーを検索
         $forgotPasswordUser = ForgotPasswordUser::where('email', $email)->first();
 

@@ -1,6 +1,9 @@
 <?php
 
 return [
+	// G
+	'login_as_guest' => 'ゲストユーザーとしてログインしました！',
+
 	// N
 	'name_change_successful' => 'ユーザー名の変更が完了しました！',
 

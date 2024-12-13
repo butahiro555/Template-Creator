@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,11 @@ class AuthsController extends Controller
 
     public function logout()
     {
+        // ゲストユーザーのテンプレート文を削除
+        if (Auth::check() && Auth::user()->is_guest) {
+            Template::where('user_id', Auth::id())->delete();
+        }
+
         Auth::logout();
         return redirect('/');
     }
