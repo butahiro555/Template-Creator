@@ -31,8 +31,13 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function showEditNameForm(Request $request): View
+    public function showEditNameForm(Request $request)
     {
+        // ゲストユーザーの場合、エラーメッセージを返す
+        if (Auth::user()->is_guest) {
+            return redirect()->route('profile.index')->withErrors(['error' => trans('error_message.guest_user_not_use')]);
+        }
+
         // ユーザーオブジェクト全体をビューに渡す
         return view('profile.edit-name', [
             'user' => $request->user(), // ユーザーオブジェクト全体を渡す
@@ -61,8 +66,13 @@ class ProfileController extends Controller
     }
 
     // 現パスワード入力フォームの表示
-    public function confirmCurrentPasswordForm(Request $request): View
+    public function confirmCurrentPasswordForm(Request $request)
     {
+        // ゲストユーザーの場合、エラーメッセージを返す
+        if (Auth::user()->is_guest) {
+            return redirect()->route('profile.index')->withErrors(['error' => trans('error_message.guest_user_not_use')]);
+        }
+
         return view('profile.password-confirm-form', [
             'user' => $request->user(),
         ]);
@@ -113,8 +123,13 @@ class ProfileController extends Controller
     }
 
     // 退会希望者の現パスワード入力フォームの表示
-    public function confirmCurrentPasswordFormForDeleteUser(Request $request): View
+    public function confirmCurrentPasswordFormForDeleteUser(Request $request)
     {
+        // ゲストユーザーの場合、エラーメッセージを返す
+        if (Auth::user()->is_guest) {
+            return redirect()->route('profile.index')->withErrors(['error' => trans('error_message.guest_user_not_use')]);
+        }
+
         return view('profile.delete-user-password-confirm-form', [
             'user' => $request->user(),
         ]);
