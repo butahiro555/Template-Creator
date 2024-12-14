@@ -22,5 +22,5 @@ yarn-error.log
 /docker/mysql/my.cnf
 /docker/nginx/logs
 /storage/coverage/
-.github/workflows/php.yml
+.github
 /tests
