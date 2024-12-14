@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Template;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,13 +16,30 @@ class AuthsController extends Controller
 
     public function login(Request $request)
     {
+        // バリデーション
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+    
+        $email = strtolower($request->email);
         $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('/'); // ログイン後のリダイレクト先を設定
+    
+        // 登録済みユーザーを検索
+        $registeredUser = User::where('email', $email)->first();
+    
+        // ユーザーが存在しない、またはゲストユーザーの場合
+        if (!$registeredUser || $registeredUser->is_guest) {
+            return redirect()->back()->withErrors(['email' => trans('error_message.email_invalid')]);
         }
-
-        return redirect()->back()->withErrors(['email' => trans('error_message.email_invalid')]);
+    
+        // 認証試行
+        if (!Auth::attempt($credentials)) {
+            return redirect()->back()->withErrors(['email' => trans('error_message.email_invalid')]);
+        }
+    
+        // 認証成功時のリダイレクト
+        return redirect()->intended('/');
     }
 
     public function logout()
