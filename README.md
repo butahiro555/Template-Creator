@@ -69,6 +69,8 @@ https://github.com/butahiro555/Template-Creator/blob/main-dev-env/docker-compose
 コンテナビルドに使用したDockerfileなど:
 <br>
 https://github.com/butahiro555/Template-Creator/tree/main-dev-env/docker
+<br>
+カバレッジテスト結果
 
 <h3>アーキテクチャの概要</h3>
 - トランザクション処理：ユーザー登録やパスワード再設定でデータ整合性を保つために、トランザクションを使用しています。
@@ -147,6 +149,17 @@ https://github.com/butahiro555/Template-Creator/tree/master
 - ページネーション機能
 <br>
 - フォーム送信後にパスワードフィールドの値をクリアするDOM操作機能
+<br>
+<h3>付録</h3>
+カバレッジテスト結果
+<br>
+<a href="https://gyazo.com/de613c6a52393f489dca15a0a30d3845">
+      <img src="https://gyazo.com/de613c6a52393f489dca15a0a30d3845.png" alt="Image from Gyazo">
+</a>
+<br>
+<a href="https://gyazo.com/81e874ef33878fa0ac3b86da41b5d75f">
+      <img src="https://gyazo.com/81e874ef33878fa0ac3b86da41b5d75f.png" alt="Image from Gyazo">
+</a>
 <h3>Licence</h3>
 "Laravel framework" is open source software licensed under <a href="https://en.wikipedia.org/wiki/MIT_License">the MIT license</a>.
 <br>
