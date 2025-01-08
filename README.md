@@ -28,7 +28,7 @@ https://template-creator-0b1fb002af8e.herokuapp.com
 <a href="https://gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830"><img src="https://i.gyazo.com/4ec4be33bdfa21cffa02f8ea218ec830.gif" alt="Image from Gyazo"></a>
 <br>
 <br>
-　　レスポンシブデザインにも対応しています。
+レスポンシブデザインにも対応しています。
 <br>
 <a href="https://gyazo.com/76e9ae28d64a384474b1645023587d7f"><img src="https://i.gyazo.com/76e9ae28d64a384474b1645023587d7f.gif" alt="Image from Gyazo"></a>
 <br>
@@ -70,7 +70,6 @@ https://github.com/butahiro555/Template-Creator/blob/main-dev-env/docker-compose
 <br>
 https://github.com/butahiro555/Template-Creator/tree/main-dev-env/docker
 <br>
-カバレッジテスト結果
 
 <h3>アーキテクチャの概要</h3>
 - トランザクション処理：ユーザー登録やパスワード再設定でデータ整合性を保つために、トランザクションを使用しています。
@@ -151,6 +150,11 @@ https://github.com/butahiro555/Template-Creator/tree/master
 - フォーム送信後にパスワードフィールドの値をクリアするDOM操作機能
 <br>
 <h3>付録</h3>
+ER図
+<br>
+<a href="https://gyazo.com/dcb288891f4493320e6cbfc020464ed3"><img src="https://gyazo.com/dcb288891f4493320e6cbfc020464ed3.png" alt="Image from Gyazo"></a>
+<br>
+<br>
 カバレッジテスト結果
 <br>
 <a href="https://gyazo.com/de613c6a52393f489dca15a0a30d3845">
